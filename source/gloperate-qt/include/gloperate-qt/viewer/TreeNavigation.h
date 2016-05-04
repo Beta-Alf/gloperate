@@ -16,6 +16,7 @@ namespace gloperate
 class AbstractCameraCapability;
 class AbstractViewportCapability;
 class AbstractProjectionCapability;
+class CameraCollisionCapability;
 class CoordinateProvider;
 
 }
@@ -52,7 +53,8 @@ public:
     TreeNavigation(gloperate::AbstractCameraCapability & cameraCapability,
         gloperate::AbstractViewportCapability & viewportCapability,
         gloperate::CoordinateProvider & coordProvider, 
-        gloperate::AbstractProjectionCapability * projectionCapability);
+        gloperate::AbstractProjectionCapability * projectionCapability,
+        gloperate::CameraCollisionCapability * collisionCapability);
     virtual ~TreeNavigation();
 
     virtual void reset();
@@ -109,6 +111,7 @@ protected:
     gloperate::AbstractCameraCapability & m_cameraCapability;
     gloperate::AbstractViewportCapability & m_viewportCapability;
     gloperate::AbstractProjectionCapability * m_projectionCapability;
+    gloperate::CameraCollisionCapability * m_collisionCapability;
 
     gloperate::CoordinateProvider & m_coordProvider;
 

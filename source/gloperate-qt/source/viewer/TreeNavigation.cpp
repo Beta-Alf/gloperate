@@ -14,6 +14,7 @@
 
 #include <gloperate/painter/AbstractCameraCapability.h>
 #include <gloperate/painter/AbstractViewportCapability.h>
+#include <gloperate/painter/CameraCollisionCapability.h>
 #include <gloperate/tools/DepthExtractor.h>
 #include <gloperate/navigation/CoordinateProvider.h>
 #include <gloperate/navigation/navigationmath.h>
@@ -45,10 +46,12 @@ namespace
 TreeNavigation::TreeNavigation(gloperate::AbstractCameraCapability & cameraCapability,
     gloperate::AbstractViewportCapability & viewportCapability,
     gloperate::CoordinateProvider & coordProvider,
-    AbstractProjectionCapability *projectionCapability)
+    AbstractProjectionCapability *projectionCapability, 
+    gloperate::CameraCollisionCapability *collisionCapability)
 : m_cameraCapability(cameraCapability)
 , m_viewportCapability(viewportCapability)
 , m_projectionCapability(projectionCapability)
+, m_collisionCapability(collisionCapability)
 , m_coordProvider(coordProvider)
 , m_rotationHappened(false)
 , m_mode(NoInteraction)
@@ -168,6 +171,11 @@ void TreeNavigation::panEnd()
         return;
 
     m_mode = NoInteraction;
+    
+    if(m_collisionCapability)
+    {
+        globjects::debug() << m_collisionCapability->getDistance(glm::vec3(0.0f, -1.0f, 0.0f));
+    }
 }
 
 void TreeNavigation::rotateBegin(const glm::ivec2 & mouse)

@@ -16,6 +16,7 @@
 #include <gloperate/painter/AbstractViewportCapability.h>
 #include <gloperate/painter/AbstractTargetFramebufferCapability.h>
 #include <gloperate/painter/AbstractMetaInformationCapability.h>
+#include <gloperate/painter/CameraCollisionCapability.h>
 #include <gloperate/painter/TypedRenderTargetCapability.h>
 #include <gloperate/painter/Painter.h>
 #include <gloperate/input/AbstractEvent.h>
@@ -85,6 +86,7 @@ void TreeNavigationMapping::initializeTools()
     {
         auto cameraCapability = m_painter->getCapability<AbstractCameraCapability>();
         auto projectionCapability = m_painter->getCapability<AbstractProjectionCapability>();
+        auto collisionCapability = m_painter->getCapability<CameraCollisionCapability>();
         m_viewportCapability = m_painter->getCapability<AbstractViewportCapability>();
 
         m_typedRenderTargetCapability = m_painter->getCapability<TypedRenderTargetCapability>();
@@ -100,7 +102,7 @@ void TreeNavigationMapping::initializeTools()
         m_coordProvider = make_unique<CoordinateProvider>(
             cameraCapability, projectionCapability, m_viewportCapability, m_typedRenderTargetCapability);
         m_navigation = make_unique<TreeNavigation>(
-            *cameraCapability, *m_viewportCapability, *m_coordProvider, projectionCapability);
+            *cameraCapability, *m_viewportCapability, *m_coordProvider, projectionCapability, collisionCapability);
     }
 
     m_metaInformationCapability = m_painter->getCapability<AbstractMetaInformationCapability>();
