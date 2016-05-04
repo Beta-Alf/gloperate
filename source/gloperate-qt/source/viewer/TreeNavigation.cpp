@@ -171,11 +171,6 @@ void TreeNavigation::panEnd()
         return;
 
     m_mode = NoInteraction;
-    
-    if(m_collisionCapability)
-    {
-        globjects::debug() << m_collisionCapability->getDistance(glm::vec3(0.0f, -1.0f, 0.0f));
-    }
 }
 
 void TreeNavigation::rotateBegin(const glm::ivec2 & mouse)
