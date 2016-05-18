@@ -35,8 +35,7 @@ void CombinedProjectionCapability::setZNear(const float zNear)
     m_perspectiveCapability.setZNear(zNear);
     update();
 
-    m_projection = interpolate(m_orthoCapability.projection(), m_perspectiveCapability.projection());
-    m_invertedProjection = glm::inverse(m_projection);
+    invalidateMatrices();
 }
 
 float CombinedProjectionCapability::zFar() const
@@ -50,8 +49,7 @@ void CombinedProjectionCapability::setZFar(const float zFar)
     m_perspectiveCapability.setZFar(zFar);
     update();
 
-    m_projection = interpolate(m_orthoCapability.projection(), m_perspectiveCapability.projection());
-    m_invertedProjection = glm::inverse(m_projection);
+    invalidateMatrices();
 }
 
 float CombinedProjectionCapability::aspectRatio() const
@@ -61,12 +59,20 @@ float CombinedProjectionCapability::aspectRatio() const
 
 const glm::mat4 & CombinedProjectionCapability::projection() const
 {  
-    return m_projection;
+    if(!m_projection.isValid())
+    {
+        m_projection.setValue(interpolate(m_orthoCapability.projection(), m_perspectiveCapability.projection()));
+    }
+    return m_projection.value();
 }
 
 const glm::mat4 & CombinedProjectionCapability::projectionInverted() const
 {
-    return m_invertedProjection;
+    if(!m_invertedProjection.isValid())
+    {
+        m_invertedProjection.setValue(glm::inverse(projection()));
+    }
+    return m_invertedProjection.value();
 }
 
 glm::mat4 CombinedProjectionCapability::projectionForAspectRatio(float ratio) const
@@ -84,19 +90,23 @@ void CombinedProjectionCapability::setAspectRatio(float ratio)
 {
     m_orthoCapability.setAspectRatio(ratio);
     m_perspectiveCapability.setAspectRatio(ratio);
+    
+    invalidateMatrices();
 }
 
 void CombinedProjectionCapability::setAspectRatio(const glm::ivec2 & viewport)
 {
     m_orthoCapability.setAspectRatio(viewport);
-    m_orthoCapability.setAspectRatio(viewport);
+    m_perspectiveCapability.setAspectRatio(viewport);
+    
+    invalidateMatrices();
 }
 
 void CombinedProjectionCapability::setMix(float mix)
 {
     m_mix = mix;
-    m_projection = interpolate(m_orthoCapability.projection(), m_perspectiveCapability.projection());
-    m_invertedProjection = glm::inverse(m_projection);
+    
+    invalidateMatrices();
 }
 
 float CombinedProjectionCapability::mix() const
@@ -115,6 +125,12 @@ void CombinedProjectionCapability::setOrthoFOV(const glm::vec3 & eye, const glm:
     auto alpha = m_perspectiveCapability.fovy();
     auto fovy = glm::tan(alpha) * glm::length(eye-focus) * offsetSmoothing;
     m_orthoCapability.setHeight(fovy);
+}
+
+void CombinedProjectionCapability::invalidateMatrices()
+{
+    m_projection.invalidate();
+    m_invertedProjection.invalidate();
 }
 
 } // namespace gloperate
