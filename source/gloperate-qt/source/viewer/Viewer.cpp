@@ -43,6 +43,7 @@
 #include <gloperate-qt/viewer/QtWheelEventProvider.h>
 #include <gloperate-qt/viewer/DefaultMapping.h>
 #include <gloperate-qt/viewer/TreeNavigationMapping.h>
+#include <gloperate-qt/viewer/FirstPersonMapping.h>
 #include <gloperate-qt/widgets/ImageExporterWidget.h>
 #include <gloperate-qt/widgets/PluginConfigWidget.h>
 #include <gloperate-qt/scripting/ScriptEnvironment.h>
@@ -353,7 +354,7 @@ void Viewer::setupCanvas()
     centralWidget()->setFocusPolicy(Qt::StrongFocus);
 
     // Setup event provider to translate Qt messages into gloperate events
-    
+
     m_keyProvider->setParent(m_canvas.get());
     m_mouseProvider->setParent(m_canvas.get());
     m_wheelProvider->setParent(m_canvas.get());
@@ -367,10 +368,12 @@ void Viewer::setupMapping()
 {
 
     // Create input mapping for gloperate interaction techniques
-    if (m_painter->supports<AbstractEventRoutingCapability>())
+    /*
+     * if (m_painter->supports<AbstractEventRoutingCapability>())
         m_mapping.reset(new EventRoutingMapping(m_canvas.get()));
     else
-        m_mapping.reset(new TreeNavigationMapping(m_canvas.get()));
+    */
+    m_mapping.reset(new FirstPersonMapping(m_canvas.get()));
     m_mapping->addProvider(m_keyProvider.get());
     m_mapping->addProvider(m_mouseProvider.get());
     m_mapping->addProvider(m_wheelProvider.get());

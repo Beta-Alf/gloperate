@@ -12,6 +12,7 @@
 
 #include <gloperate/base/make_unique.hpp>
 #include <gloperate/painter/AbstractCameraCapability.h>
+#include <gloperate/painter/FrameTimeCapability.h>
 #include <gloperate/painter/Painter.h>
 #include <gloperate/input/AbstractEvent.h>
 #include <gloperate/input/KeyboardEvent.h>
@@ -50,6 +51,8 @@ void FirstPersonMapping::initializeTools()
 
     auto cameraCapability = m_painter->getCapability<AbstractCameraCapability>();
     m_navigation = gloperate::make_unique<FirstPersonNavigation>(*cameraCapability);
+
+    m_timer = m_painter->getCapability<FrameTimeCapability>();
 }
 
 void FirstPersonMapping::mapEvent(AbstractEvent * event)
@@ -77,6 +80,28 @@ void FirstPersonMapping::mapEvent(AbstractEvent * event)
 
 void FirstPersonMapping::mapKeyboardEvent(KeyboardEvent * event)
 {
+    if(!m_timer || !m_navigation)
+    {
+        return;
+    }
+
+    switch(event->key())
+    {
+    case gloperate::KeyW:
+        m_navigation->moveRelative(glm::vec2(1.0,0.0)*m_timer->time());
+        break;
+    case gloperate::KeyS:
+        m_navigation->moveRelative(glm::vec2(-1.0,0.0)*m_timer->time());
+        break;
+    case gloperate::KeyA:
+        m_navigation->moveRelative(glm::vec2(0.0,-1.0)*m_timer->time());
+        break;
+    case gloperate::KeyD:
+        m_navigation->moveRelative(glm::vec2(0.0,1.0)*m_timer->time());
+        break;
+    default:
+        break;
+    }
 }
 
 void FirstPersonMapping::mapMouseEvent(MouseEvent * mouseEvent)

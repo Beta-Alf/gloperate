@@ -13,6 +13,7 @@ class KeyboardEvent;
 class MouseEvent;
 class WheelEvent;
 class FirstPersonNavigation;
+class FrameTimeCapability;
 
 }
 
@@ -41,6 +42,8 @@ protected:
     glm::ivec2 m_lastDelta;
 
     bool m_mouseCaught;
+
+    gloperate::FrameTimeCapability * m_timer;
 
 };
 

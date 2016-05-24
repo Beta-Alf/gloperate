@@ -32,7 +32,8 @@ class GLOPERATE_API FirstPersonNavigation
 public:
     FirstPersonNavigation(gloperate::AbstractCameraCapability & cameraCapability);
 
-    void move(const glm::vec2 & direction);
+    void moveAbsolute(glm::vec2 direction);
+    void moveRelative(glm::vec2 direction);
     void rotate(glm::vec2 direction);
     void enforceRotationConstraints(float & hAngle, float & vAngle) const;
 

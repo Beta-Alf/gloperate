@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace{
-    float ROTATION_SCALING = 0.001f;
+    float INPUT_SCALING = 0.001f;
 
     float CONSTRAINT_ROT_MAX_V_UP = 0.001f;
     float CONSTRAINT_ROT_MAX_V_LO = 0.001f;
@@ -21,14 +21,25 @@ FirstPersonNavigation::FirstPersonNavigation(gloperate::AbstractCameraCapability
 {
 }
 
-void FirstPersonNavigation::move(const glm::vec2 & direction)
+void FirstPersonNavigation::moveAbsolute(glm::vec2 direction)
 {
     glm::vec3 delta(direction.x, 0.f, direction.y);
-    delta /= 1000.f;
     m_cameraCapability.setEye(m_cameraCapability.eye() + delta);
     m_cameraCapability.setCenter(m_cameraCapability.center() + delta);
 }
 
+void FirstPersonNavigation::moveRelative(glm::vec2 direction)
+{
+    const glm::vec3 center = m_cameraCapability.center();
+    const glm::vec3 eye = m_cameraCapability.eye();
+    glm::vec3 forwards = glm::normalize(center - eye);
+    glm::vec3 right = glm::normalize(glm::cross(forwards, m_cameraCapability.up()));
+
+    glm::vec3 delta = forwards * direction.x + right * direction.y;
+
+    m_cameraCapability.setEye(eye + delta);
+    m_cameraCapability.setCenter(center + delta);
+}
 void FirstPersonNavigation::rotate(glm::vec2 direction)
 {
     const glm::vec3 center = m_cameraCapability.center();
@@ -36,15 +47,15 @@ void FirstPersonNavigation::rotate(glm::vec2 direction)
     const glm::vec3 ray(glm::normalize(center - eye));
     const glm::vec3 rotAxis(glm::cross(ray, m_cameraCapability.up()));
 
-    direction *= ROTATION_SCALING;
+    direction *= INPUT_SCALING;
 
     //enforceRotationConstraints(direction.x, direction.y);
 
     glm::mat4x4 transform = glm::mat4x4();
-    transform = glm::translate(transform, center);
+    transform = glm::translate(transform, eye);
     transform = glm::rotate(transform, direction.x, m_cameraCapability.up());
-    transform = glm::rotate(transform, -direction.y, rotAxis);
-    transform = glm::translate(transform, -center);
+    transform = glm::rotate(transform, direction.y, rotAxis);
+    transform = glm::translate(transform, -eye);
 
     glm::vec4 newEye = transform * glm::vec4(eye, 1.0f);
     glm::vec4 newCenter = transform * glm::vec4(center, 1.0f);
