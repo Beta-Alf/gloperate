@@ -65,11 +65,11 @@ void TreeNavigationMapping::initializeTools()
     {
         return;
     }
-    
+
     bool supportsCameraViewProjection = (m_painter->supports<AbstractCameraCapability>() &&
                                           m_painter->supports<AbstractViewportCapability>() &&
                                           m_painter->supports<AbstractProjectionCapability>());
-                                          
+
     bool supportsRenderTarget = (m_painter->supports<AbstractTypedRenderTargetCapability>() ||
                                  m_painter->supports<AbstractTargetFramebufferCapability>());
 
@@ -92,13 +92,8 @@ void TreeNavigationMapping::initializeTools()
 
         m_coordProvider = make_unique<CoordinateProvider>(
             cameraCapability, projectionCapability, m_viewportCapability, m_typedRenderTargetCapability);
-<<<<<<< ours
-        m_navigation = make_unique<TreeNavigation>(
-            *cameraCapability, *m_viewportCapability, *m_coordProvider, projectionCapability, collisionCapability);
-=======
         m_navigation = make_unique<gloperate::TreeMapNavigation>(
             *cameraCapability, *m_viewportCapability, *m_coordProvider, projectionCapability);
->>>>>>> theirs
     }
 }
 
