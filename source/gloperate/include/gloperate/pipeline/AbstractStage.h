@@ -98,6 +98,7 @@ protected:
     std::set<AbstractData*> m_sharedOutputs;
     std::set<AbstractInputSlot*> m_inputs;
     std::set<AbstractInputSlot*> m_sharedInputs;
+    gloperate::CachedValue<std::set<AbstractInputSlot*>> m_allInputs;
     std::set<AbstractStage*> m_dependencies;    /**< Additional manual dependencies not expressed by data connections */
 
 

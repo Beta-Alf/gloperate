@@ -199,17 +199,22 @@ const std::set<AbstractInputSlot*> & AbstractStage::inputs() const
 
 std::set<AbstractInputSlot*> AbstractStage::allInputs() const
 {
-    std::set<AbstractInputSlot*> inputs;
+    if(!m_allInputs.isValid())
+    {
+        std::set<AbstractInputSlot*> inputs;
 
-    std::set_union(
-        m_inputs.begin(),
-        m_inputs.end(),
-        m_sharedInputs.begin(),
-        m_sharedInputs.end(),
-        std::inserter(inputs, inputs.end())
-    );
+        std::set_union(
+            m_inputs.begin(),
+            m_inputs.end(),
+            m_sharedInputs.begin(),
+            m_sharedInputs.end(),
+            std::inserter(inputs, inputs.end())
+        );
 
-    return inputs;
+        m_allInputs.setValue(inputs);
+    }
+
+    return m_allInputs.value();
 }
 
 void AbstractStage::addOutput(const std::string & name, AbstractData & output)
@@ -231,6 +236,7 @@ void AbstractStage::addInput(const std::string & name, AbstractInputSlot & input
     m_inputs.insert(&input);
 
     input.connectionChanged.connect(dependenciesChanged);
+    m_allInputs.invalidate();
 }
 
 void AbstractStage::shareInput(AbstractInputSlot * input)
@@ -238,6 +244,8 @@ void AbstractStage::shareInput(AbstractInputSlot * input)
     m_sharedInputs.insert(input);
 
     input->connectionChanged.connect(dependenciesChanged);
+
+    m_allInputs.invalidate();
 }
 
 void AbstractStage::addFeedbackInput(const std::string & name, AbstractInputSlot & input)
