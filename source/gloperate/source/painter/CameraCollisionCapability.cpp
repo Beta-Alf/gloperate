@@ -59,25 +59,28 @@ float CameraCollisionCapability::getDistance(const glm::vec3 &dir) const
         return std::numeric_limits<float>::max();
     }
 
-    //Find the correct axis to sample
+    // Find the correct axis to sample
     if(xAbs > yAbs && xAbs > zAbs)
     {
         face = GL_COLOR_ATTACHMENT0;
         main = dir.x; u = -dir.z; v = -dir.y;
     } else if(yAbs > zAbs)
     {
+        auto sign = std::signbit(dir.y) ? -1 : 1;
+
         face = GL_COLOR_ATTACHMENT2;
-        main = dir.y; u = dir.x; v = dir.z;
+        main = dir.y; u = dir.x; v = sign *dir.z;
+
     } else
     {
         face = GL_COLOR_ATTACHMENT4;
         main = dir.z; u = -dir.x; v = -dir.y;
     }
 
-    //Find the correct orientation on this axis
+    // Find the correct orientation on this axis
     face = face + static_cast<int>(std::signbit(main));
 
-    //Sample the coordinates
+    // Sample the coordinates
     glm::vec2 uv{u/std::abs(main), v/std::abs(main)};
     glm::ivec2 i_uv = uv * static_cast<float>(m_size/2)+static_cast<float>(m_size/2);
     std::vector<glm::vec3> buf(m_samplingSize*m_samplingSize);
