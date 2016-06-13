@@ -40,18 +40,6 @@ namespace
     static const float MAP_EXTENT = std::max(MAP_EXTENT_X, MAP_EXTENT_Z);
 
     static const float TRANSLATION_FREEDOM = 5.f;
-
-    static const float CAM_SIZE = 0.01f;
-
-    float clampWithGrace(float x, float min, float max, float grace)
-    {
-        if(x < min)
-            x = min + grace;
-        if(x > max)
-            x = max - grace;
-
-        return x;
-    }
 }
 
 namespace gloperate{
