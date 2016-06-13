@@ -88,7 +88,7 @@ float CameraCollisionCapability::getDistance(const glm::vec3 &dir) const
     m_fbo->bind();
 
     std::array<GLint,4> sampleRange{i_uv.x,i_uv.y,m_samplingSize,m_samplingSize};
-    m_fbo->readPixels(face, sampleRange,GL_RGB,GL_FLOAT,buf.data());
+    m_fbo->readPixels(face, sampleRange,GL_DEPTH_COMPONENT,GL_FLOAT,buf.data());
 
     m_fbo->unbind();
 
