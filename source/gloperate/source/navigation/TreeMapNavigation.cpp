@@ -242,6 +242,15 @@ void TreeMapNavigation::rotate(
 
     enforceTranslationConstraints();
 
+    auto combCapability = dynamic_cast<CombinedProjectionCapability *>(m_projectionCapability);
+
+    if(combCapability != nullptr)
+    {
+        bool intersects = false;
+        glm::ivec2 middle(m_viewportCapability.width()/2, m_viewportCapability.height()/2);
+        m_referencePosition = clampPointToMap(mouseRayPlaneIntersection(intersects, middle));
+        combCapability->setOrthoFOV(eye, m_referencePosition);
+    }
 }
 
 
