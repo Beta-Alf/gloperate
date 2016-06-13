@@ -31,13 +31,15 @@ namespace
     static const float ROTATION_KEY_SCALE = 1.0f;
 
     static const float PROJECTION_TWEENING_THRESH = 0.03f * glm::pi<float>();
+    static const float CONSTRAINT_ROT_MAX_V       = 0.003f * glm::pi<float>();
+    static const float CONSTRAINT_ROT_MIN_V       = 0.48f * glm::pi<float>();
     static const float CONSTRAINT_ROT_MAX_H       = 0.2f  * glm::pi<float>();
 
     static const float MAP_EXTENT_X = 0.5f;
     static const float MAP_EXTENT_Z = 0.5f;
     static const float MAP_EXTENT = std::max(MAP_EXTENT_X, MAP_EXTENT_Z);
 
-    static const float TRANSLATION_FREEDOM = 10.f;
+    static const float TRANSLATION_FREEDOM = 5.f;
 
     static const float CAM_SIZE = 0.01f;
 
