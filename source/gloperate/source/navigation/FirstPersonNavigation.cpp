@@ -50,16 +50,15 @@ void FirstPersonNavigation::rotate(const glm::vec2 &direction)
 {
     const glm::vec3 center = m_cameraCapability.center();
     const glm::vec3 eye = m_cameraCapability.eye();
-    const glm::vec3 ray(glm::normalize(center - eye));
-    const glm::vec3 rotAxis(glm::cross(ray, m_cameraCapability.up()));
-
+    const glm::vec3 up = m_cameraCapability.up();
+    const glm::vec3 yawAxis(glm::cross((center - eye), up));
 
     //enforceRotationConstraints(direction.x, direction.y);
 
     glm::mat4x4 transform = glm::mat4x4();
     transform = glm::translate(transform, eye);
-    transform = glm::rotate(transform, direction.x, m_cameraCapability.up());
-    transform = glm::rotate(transform, direction.y, rotAxis);
+    transform = glm::rotate(transform, direction.x, up);
+    transform = glm::rotate(transform, direction.y, yawAxis);
     transform = glm::translate(transform, -eye);
 
     glm::vec4 newEye = transform * glm::vec4(eye, 1.0f);
