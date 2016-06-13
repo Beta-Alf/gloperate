@@ -67,6 +67,7 @@ public:
     void scaleAtMouse(const glm::ivec2 & mouse,	float scale);
     void resetScaleAtMouse(const glm::ivec2 & mouse);
 
+protected:
     // constraints
     void enforceRotationConstraints(
         float & hAngle
