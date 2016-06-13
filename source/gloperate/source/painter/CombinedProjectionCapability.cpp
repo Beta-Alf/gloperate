@@ -125,6 +125,7 @@ void CombinedProjectionCapability::setOrthoFOV(const glm::vec3 & eye, const glm:
     auto alpha = m_perspectiveCapability.fovy();
     auto fovy = glm::tan(alpha) * glm::length(eye-focus) * offsetSmoothing;
     m_orthoCapability.setHeight(fovy);
+    invalidateMatrices();
 }
 
 void CombinedProjectionCapability::invalidateMatrices()
