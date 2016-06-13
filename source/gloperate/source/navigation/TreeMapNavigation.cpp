@@ -194,7 +194,7 @@ void TreeMapNavigation::rotateProcess(const glm::ivec2 & mouse)
         const auto viewDir = glm::normalize(eye - center);
         const auto va = acosf(glm::dot(viewDir, up));
 
-        auto tween_va = (va - CONSTRAINT_ROT_MAX_V_UP) / PROJECTION_TWEENING_THRESH;
+        auto tween_va = (va - CONSTRAINT_ROT_MAX_V) / PROJECTION_TWEENING_THRESH;
         tween_va = glm::clamp(tween_va, 0.0f, 1.0f);
 
         combCapability->setOrthoFOV(eye, m_referencePosition);
