@@ -7,7 +7,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace{
-    float INPUT_SCALING = 0.001f;
 
     float CONSTRAINT_ROT_MAX_V_UP = 0.001f;
     float CONSTRAINT_ROT_MAX_V_LO = 0.001f;
@@ -68,7 +67,6 @@ void FirstPersonNavigation::rotate(glm::vec2 direction)
     const glm::vec3 ray(glm::normalize(center - eye));
     const glm::vec3 rotAxis(glm::cross(ray, m_cameraCapability.up()));
 
-    direction *= INPUT_SCALING;
 
     //enforceRotationConstraints(direction.x, direction.y);
 

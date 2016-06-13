@@ -132,7 +132,7 @@ void FirstPersonMapping::mapMouseEvent(MouseEvent * mouseEvent)
         }
 
         if(glm::length(glm::vec2(delta)) >= 1 )
-            m_navigation->rotate(delta);
+            m_navigation->rotate(glm::vec2(delta) * INPUT_SCALING);
     }
     if(mouseEvent && mouseEvent->type() == MouseEvent::Type::Press)
     {
