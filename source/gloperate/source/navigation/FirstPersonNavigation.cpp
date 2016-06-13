@@ -46,7 +46,7 @@ float FirstPersonNavigation::getDistance(const glm::vec3 &direction)
         return m_collisionCapability->getDistance(direction);
 }
 
-void FirstPersonNavigation::rotate(glm::vec2 direction)
+void FirstPersonNavigation::rotate(const glm::vec2 &direction)
 {
     const glm::vec3 center = m_cameraCapability.center();
     const glm::vec3 eye = m_cameraCapability.eye();
