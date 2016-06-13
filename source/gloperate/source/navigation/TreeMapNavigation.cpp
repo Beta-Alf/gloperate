@@ -31,8 +31,6 @@ namespace
     static const float ROTATION_KEY_SCALE = 1.0f;
 
     static const float PROJECTION_TWEENING_THRESH = 0.03f * glm::pi<float>();
-    static const float CONSTRAINT_ROT_MAX_V_UP    = 0.001f * glm::pi<float>();
-    static const float CONSTRAINT_ROT_MAX_V_LO    = 0.48f * glm::pi<float>();
     static const float CONSTRAINT_ROT_MAX_H       = 0.2f  * glm::pi<float>();
 
     static const float MAP_EXTENT_X = 0.5f;
@@ -318,8 +316,8 @@ void TreeMapNavigation::scaleAtCenter(float scale)
 }
 
 void TreeMapNavigation::enforceRotationConstraints(
-    float & hAngle
-,   float & vAngle) const
+    float & deltaHAngle
+,   float & deltaVAngle) const
 {
     // retrieve the angle between camera-center to up and test how much closer
     // to up/down it can be rotated and clamp if required.
@@ -328,20 +326,22 @@ void TreeMapNavigation::enforceRotationConstraints(
     auto up = m_cameraCapability.up();
     auto viewDir = glm::normalize(eye - center);
 
-    /* auto horizontalDir = glm::normalize(viewDir - (up * glm::dot(viewDir, up)));
+    auto horizontalDir = glm::normalize(viewDir - (up * glm::dot(viewDir, up)));
 
-    auto ha = acosf(glm::dot(m_cardinalDirection, horizontalDir)); // TODO: make this signed
-
+    auto ha = acosf(glm::dot(m_cardinalDirection, horizontalDir));
     ha = std::copysign(ha, glm::dot(glm::cross(m_cardinalDirection, horizontalDir), up));
 
-    auto targetHAngle = ha + hAngle;
-    targetHAngle = glm::clamp(targetHAngle, -CONSTRAINT_ROT_MAX_H, CONSTRAINT_ROT_MAX_H);
-    hAngle = targetHAngle - ha; */
-
+    deltaHAngle = clampDeltaAngle(ha, deltaHAngle, -CONSTRAINT_ROT_MAX_H, CONSTRAINT_ROT_MAX_H);
 
     auto va = acosf(glm::dot(viewDir, up));
-    vAngle = glm::clamp(vAngle, CONSTRAINT_ROT_MAX_V_UP - va, CONSTRAINT_ROT_MAX_V_LO - va);
+    deltaVAngle = clampDeltaAngle(va, deltaVAngle, CONSTRAINT_ROT_MAX_V, CONSTRAINT_ROT_MIN_V);
+}
 
+float TreeMapNavigation::clampDeltaAngle(float curAngle, float deltaAngle, float minAngle, float maxAngle) const
+{
+    auto targetAngle = curAngle + deltaAngle;
+    targetAngle = glm::clamp(targetAngle, minAngle, maxAngle);
+    return targetAngle - curAngle;
 }
 
 void TreeMapNavigation::enforceTranslationConstraints(glm::vec3 &delta)

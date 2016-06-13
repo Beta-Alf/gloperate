@@ -69,9 +69,8 @@ public:
 
 protected:
     // constraints
-    void enforceRotationConstraints(
-        float & hAngle
-    ,	float & vAngle) const;
+    void enforceRotationConstraints(float & deltaHAngle
+    ,	float & deltaVAngle) const;
 
     void enforceTranslationConstraints(glm::vec3 & delta);
 
@@ -91,6 +90,8 @@ protected:
     ,   const glm::vec3 & planePosition
     ,   const glm::vec3 & planeNormal) const;
     const glm::vec3 clampPointToMap(glm::vec3 point) const;
+
+    float clampDeltaAngle(float curAngle, float deltaAngle, float minAngle, float maxAngle) const;
 
 protected:
     gloperate::AbstractCameraCapability & m_cameraCapability;
