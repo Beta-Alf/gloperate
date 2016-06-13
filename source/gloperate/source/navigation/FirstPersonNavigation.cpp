@@ -1,8 +1,6 @@
 
 #include <gloperate/navigation/FirstPersonNavigation.h>
 
-#include <globjects/logging.h>
-
 #include <gloperate/painter/AbstractCameraCapability.h>
 #include <gloperate/painter/CameraCollisionCapability.h>
 
@@ -47,8 +45,6 @@ void FirstPersonNavigation::moveRelative(glm::vec2 direction)
 void FirstPersonNavigation::move(const glm::vec3 & delta)
 {
     float dist = getDistance(delta);
-
-    globjects::debug() << dist;
 
     if(dist - glm::length(delta) > COLLISION_RADIUS)
     {

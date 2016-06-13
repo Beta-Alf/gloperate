@@ -8,8 +8,6 @@
 
 #include <glbinding/gl/enum.h>
 
-#include <globjects/logging.h>
-
 #include <gloperate/base/make_unique.hpp>
 #include <gloperate/painter/AbstractCameraCapability.h>
 #include <gloperate/painter/CameraCollisionCapability.h>
