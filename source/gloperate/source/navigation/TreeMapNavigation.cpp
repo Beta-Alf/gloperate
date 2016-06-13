@@ -275,24 +275,6 @@ void TreeMapNavigation::scaleAtMouse(
     enforceTranslationConstraints();
 }
 
-void TreeMapNavigation::resetScaleAtMouse(const glm::ivec2 & mouse)
-{
-    const glm::vec3 eye = m_cameraCapability.eye();
-    const glm::vec3 center = m_cameraCapability.center();
-
-    // set the distance between pointed position in the scene and camera to
-    // default distance
-    bool intersects = false;
-    glm::vec3 intersect = mouseRayPlaneIntersection(intersects, mouse);
-    if (!intersects && !DepthExtractor::isValidDepth(m_coordProvider.depthAt(mouse)))
-        return;
-
-    float scale = (DEFAULT_DISTANCE / static_cast<float>((eye - intersect).length()));
-
-    m_cameraCapability.setEye(intersect - scale * (intersect - eye));
-    m_cameraCapability.setCenter(intersect - scale * (intersect - center));
-}
-
 void TreeMapNavigation::scaleAtCenter(float scale)
 {
     glm::ivec2 middle(m_viewportCapability.width()/2, m_viewportCapability.height()/2);

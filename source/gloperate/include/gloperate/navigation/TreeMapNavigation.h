@@ -65,7 +65,6 @@ public:
     *    scale > 0: zoom in
     */
     void scaleAtMouse(const glm::ivec2 & mouse,	float scale);
-    void resetScaleAtMouse(const glm::ivec2 & mouse);
 
 protected:
     // constraints
