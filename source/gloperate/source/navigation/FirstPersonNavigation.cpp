@@ -67,12 +67,6 @@ void FirstPersonNavigation::rotate(const glm::vec2 &direction)
 
     m_cameraCapability.setEye(glm::vec3(newEye));
     m_cameraCapability.setCenter(glm::vec3(newCenter));
-
-    const glm::vec3 ray2(glm::normalize(center - eye));
-
-    float dist = getDistance(ray2);
-
-    globjects::debug() << dist;
 }
 
 void FirstPersonNavigation::enforceRotationConstraints(
