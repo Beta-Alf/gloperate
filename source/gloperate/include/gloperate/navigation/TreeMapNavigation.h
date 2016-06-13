@@ -89,6 +89,7 @@ protected:
     ,   const glm::ivec2 & mouse
     ,   const glm::vec3 & planePosition
     ,   const glm::vec3 & planeNormal) const;
+
     const glm::vec3 clampPointToMap(glm::vec3 point) const;
 
     float clampDeltaAngle(float curAngle, float deltaAngle, float minAngle, float maxAngle) const;
