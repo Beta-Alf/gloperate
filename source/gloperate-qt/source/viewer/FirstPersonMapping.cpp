@@ -26,6 +26,17 @@ using namespace gloperate;
 
 using gloperate::make_unique;
 
+namespace{
+    float INPUT_SCALING = 0.001f;
+
+    void resetMouse(QtOpenGLWindow * window)
+    {
+        QPoint middle = window->mapToGlobal(QPoint(window->width()/2,window->height()/2));
+
+        QCursor::setPos(middle);
+    }
+}
+
 namespace gloperate_qt{
 
 FirstPersonMapping::FirstPersonMapping(QtOpenGLWindow * window)
@@ -116,9 +127,8 @@ void FirstPersonMapping::mapMouseEvent(MouseEvent * mouseEvent)
 
         if(m_mouseCaught)
         {
-            QPoint middle = m_window->mapToGlobal(QPoint(m_window->width()/2,m_window->height()/2));
             m_lastMousePosition = glm::ivec2(m_window->width()/2,m_window->height()/2);
-            QCursor::setPos(middle);
+            resetMouse(m_window);
         }
 
         if(glm::length(glm::vec2(delta)) >= 1 )
