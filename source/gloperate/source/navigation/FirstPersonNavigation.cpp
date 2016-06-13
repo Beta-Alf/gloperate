@@ -22,23 +22,9 @@ FirstPersonNavigation::FirstPersonNavigation(AbstractCameraCapability &cameraCap
 {
 }
 
-void FirstPersonNavigation::moveAbsolute(glm::vec2 direction)
+void FirstPersonNavigation::moveRelative(const glm::vec3 & direction)
 {
-    glm::vec3 delta(direction.x, 0.f, direction.y);
-
-    move(delta);
-}
-
-void FirstPersonNavigation::moveRelative(glm::vec2 direction)
-{
-    const glm::vec3 center = m_cameraCapability.center();
-    const glm::vec3 eye = m_cameraCapability.eye();
-    glm::vec3 forwards = glm::normalize(center - eye);
-    glm::vec3 right = glm::normalize(glm::cross(forwards, m_cameraCapability.up()));
-
-    glm::vec3 delta = forwards * direction.x + right * direction.y;
-
-    move(delta);
+    move( glm::vec3( m_cameraCapability.viewInverted() * glm::vec4( direction, 0.0)));
 }
 
 void FirstPersonNavigation::move(const glm::vec3 & delta)

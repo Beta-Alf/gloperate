@@ -99,16 +99,22 @@ void FirstPersonMapping::mapKeyboardEvent(KeyboardEvent * event)
     switch(event->key())
     {
     case gloperate::KeyW:
-        m_navigation->moveRelative(glm::vec2(1.0, 0.0) * m_timer->time());
+        m_navigation->moveRelative(glm::vec3(0.0, 0.0, -1.0) * m_timer->time());
         break;
     case gloperate::KeyS:
-        m_navigation->moveRelative(glm::vec2(-1.0, 0.0) * m_timer->time());
+        m_navigation->moveRelative(glm::vec3(0.0, 0.0, 1.0) * m_timer->time());
         break;
     case gloperate::KeyA:
-        m_navigation->moveRelative(glm::vec2(0.0, -1.0) * m_timer->time());
+        m_navigation->moveRelative(glm::vec3(-1.0, 0.0, 0.0) * m_timer->time());
         break;
     case gloperate::KeyD:
-        m_navigation->moveRelative(glm::vec2(0.0, 1.0) * m_timer->time());
+        m_navigation->moveRelative(glm::vec3(1.0, 0.0, 0.0) * m_timer->time());
+        break;
+    case gloperate::KeyQ:
+        m_navigation->moveRelative(glm::vec3(0.0, 1.0, 0.0) * m_timer->time());
+        break;
+    case gloperate::KeyE:
+        m_navigation->moveRelative(glm::vec3(0.0, -1.0, 0.0) * m_timer->time());
         break;
     case gloperate::KeyR:
         m_navigation->reset();
