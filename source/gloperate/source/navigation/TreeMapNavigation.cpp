@@ -206,9 +206,9 @@ void TreeMapNavigation::rotateProcess(const glm::ivec2 & mouse)
 
 void TreeMapNavigation::pan(glm::vec3 t)
 {
-    enforceTranslationConstraints(t);
     m_cameraCapability.setEye(t + m_cameraCapability.eye());
     m_cameraCapability.setCenter(t + m_cameraCapability.center());
+    enforceTranslationConstraints();
 }
 
 void TreeMapNavigation::rotate(
@@ -239,6 +239,9 @@ void TreeMapNavigation::rotate(
 
     m_cameraCapability.setEye(glm::vec3(newEye));
     m_cameraCapability.setCenter(glm::vec3(newCenter));
+
+    enforceTranslationConstraints();
+
 }
 
 
@@ -273,6 +276,7 @@ void TreeMapNavigation::scaleAtMouse(
     const glm::vec3 newCenter = center + scale * (intersectPoint - center);
 
     m_cameraCapability.setCenter(navigationmath::rayPlaneIntersection(intersects, newEye, newCenter));
+    enforceTranslationConstraints();
 }
 
 void TreeMapNavigation::resetScaleAtMouse(const glm::ivec2 & mouse)
@@ -393,7 +397,21 @@ void TreeMapNavigation::enforceRotationConstraints()
 
 void TreeMapNavigation::enforceTranslationConstraints()
 {
+    //make sure the camera does not veer into infinity
+    const auto tf = TRANSLATION_FREEDOM;
+    const auto eyePos = m_cameraCapability.eye();
+    const auto centerPos = m_cameraCapability.center();
 
+    auto lengthFactor = tf/glm::length(eyePos);
+    if(lengthFactor < 1)
+    {
+        auto newEye = eyePos * lengthFactor;
+        newEye.y = glm::min(0.05f, newEye.y);
+        auto delta = newEye-eyePos;
+
+        m_cameraCapability.setEye(newEye);
+        m_cameraCapability.setCenter(centerPos+delta);
+    }
 }
 
 } // namespace gloperate
