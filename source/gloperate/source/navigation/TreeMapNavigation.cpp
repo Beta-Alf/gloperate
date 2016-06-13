@@ -73,37 +73,6 @@ void TreeMapNavigation::reset()
     }
 }
 
-const glm::vec3 TreeMapNavigation::mouseRayPlaneIntersection(
-    bool & intersects,
-    const glm::ivec2 & mouse,
-    const glm::vec3 & planePosition,
-    const glm::vec3 & planeNormal) const
-{
-    // build a ray in object space from screen space mouse position and get
-    // intersection with near and far planes.
-
-    const glm::vec3 pointNear = m_coordProvider.unproject(mouse, 0.0);
-    const glm::vec3 pointFar = m_coordProvider.unproject(mouse, 1.0);
-
-    return navigationmath::rayPlaneIntersection(intersects, pointNear, pointFar, planePosition, planeNormal);
-}
-
-const glm::vec3 TreeMapNavigation::mouseRayPlaneIntersection(
-    bool & intersects
-    , const glm::ivec2 & mouse) const
-{
-    const float depth = m_coordProvider.depthAt(mouse);
-
-    // no scene object was picked - simulate picking on xz-plane
-    if (depth >= 1.0 - std::numeric_limits<float>::epsilon())
-        // use current center to construct reference plane
-        return mouseRayPlaneIntersection(intersects, mouse, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
-
-    intersects = true;
-
-    return m_coordProvider.unproject(mouse, depth);
-}
-
 const glm::vec3 TreeMapNavigation::clampPointToMap(glm::vec3 point) const
 {
     point.x = glm::clamp(point.x, -MAP_EXTENT_X, MAP_EXTENT_X);
@@ -114,7 +83,7 @@ const glm::vec3 TreeMapNavigation::clampPointToMap(glm::vec3 point) const
 void TreeMapNavigation::panBegin(const glm::ivec2 & mouse)
 {
     bool intersects = false;
-    m_referencePosition = mouseRayPlaneIntersection(intersects, mouse);
+    m_referencePosition = mouseRayWorldIntersection(intersects, mouse);
 
     m_refPositionValid = false;
     if (intersects)
@@ -153,7 +122,7 @@ void TreeMapNavigation::rotateBegin(const glm::ivec2 & mouse)
 {
     bool intersects = false;
     glm::ivec2 middle(m_viewportCapability.width()/2, m_viewportCapability.height()/2);
-    m_referencePosition = clampPointToMap(mouseRayPlaneIntersection(intersects, middle));
+    m_referencePosition = clampPointToMap(mouseRayWorldIntersection(intersects, middle));
 
     const float depth = m_coordProvider.depthAt(middle);
     m_refPositionValid = intersects && DepthExtractor::isValidDepth(depth);
@@ -236,7 +205,7 @@ void TreeMapNavigation::rotate(
     {
         bool intersects = false;
         glm::ivec2 middle(m_viewportCapability.width()/2, m_viewportCapability.height()/2);
-        m_referencePosition = clampPointToMap(mouseRayPlaneIntersection(intersects, middle));
+        m_referencePosition = clampPointToMap(mouseRayWorldIntersection(intersects, middle));
         combCapability->setOrthoFOV(eye, m_referencePosition);
     }
 }
@@ -251,7 +220,7 @@ void TreeMapNavigation::scaleAtMouse(
 
     bool intersects = false;
 
-    glm::vec3 intersectPoint = mouseRayPlaneIntersection(intersects, mouse);
+    glm::vec3 intersectPoint = mouseRayWorldIntersection(intersects, mouse);
 
     if (!intersects && !DepthExtractor::isValidDepth(m_coordProvider.depthAt(mouse)))
         return;
@@ -268,7 +237,7 @@ void TreeMapNavigation::scaleAtMouse(
     if(combCapability != nullptr)
     {
         glm::ivec2 middle(m_viewportCapability.width()/2, m_viewportCapability.height()/2);
-        auto projPos = clampPointToMap(mouseRayPlaneIntersection(intersects, middle));
+        auto projPos = clampPointToMap(mouseRayWorldIntersection(intersects, middle));
         combCapability->setOrthoFOV(eye, projPos);
     }
 
@@ -366,5 +335,37 @@ void TreeMapNavigation::enforceTranslationConstraints()
         m_cameraCapability.setCenter(centerPos+delta);
     }
 }
+
+const glm::vec3 TreeMapNavigation::mouseRayWorldIntersection(
+    bool & intersects
+    , const glm::ivec2 & mouse) const
+{
+    const float depth = m_coordProvider.depthAt(mouse);
+
+    // no scene object was picked - simulate picking on xz-plane
+    if (depth >= 1.0 - std::numeric_limits<float>::epsilon())
+        // use current center to construct reference plane
+        return mouseRayPlaneIntersection(intersects, mouse, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+
+    intersects = true;
+
+    return m_coordProvider.unproject(mouse, depth);
+}
+
+const glm::vec3 TreeMapNavigation::mouseRayPlaneIntersection(
+    bool & intersects,
+    const glm::ivec2 & mouse,
+    const glm::vec3 & planePosition,
+    const glm::vec3 & planeNormal) const
+{
+    // build a ray in object space from screen space mouse position and get
+    // intersection with near and far planes.
+    const glm::vec3 pointNear = m_coordProvider.unproject(mouse, 0.0);
+    const glm::vec3 pointFar = m_coordProvider.unproject(mouse, 1.0);
+
+    return navigationmath::rayPlaneIntersection(intersects, pointNear, pointFar, planePosition, planeNormal);
+}
+
+
 
 } // namespace gloperate

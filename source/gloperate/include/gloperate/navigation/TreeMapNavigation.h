@@ -80,7 +80,7 @@ protected:
 
     // math
 
-    const glm::vec3 mouseRayPlaneIntersection(
+    const glm::vec3 mouseRayWorldIntersection(
         bool & intersects
     ,   const glm::ivec2 & mouse) const;
     const glm::vec3 mouseRayPlaneIntersection(
