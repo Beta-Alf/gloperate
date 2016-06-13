@@ -118,6 +118,7 @@ void FirstPersonMapping::mapKeyboardEvent(KeyboardEvent * event)
         break;
     case gloperate::KeyR:
         m_navigation->reset();
+        break;
     default:
         break;
     }
