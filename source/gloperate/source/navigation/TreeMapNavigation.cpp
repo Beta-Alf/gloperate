@@ -77,6 +77,12 @@ TreeMapNavigation::~TreeMapNavigation()
 void TreeMapNavigation::reset()
 {
     m_cameraCapability.reset();
+
+    auto combCapability = dynamic_cast<CombinedProjectionCapability *>(m_projectionCapability);
+    if(combCapability != nullptr)
+    {
+        combCapability->setMix(1.f);
+    }
 }
 
 const glm::vec3 TreeMapNavigation::mouseRayPlaneIntersection(
