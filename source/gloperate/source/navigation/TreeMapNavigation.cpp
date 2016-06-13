@@ -109,7 +109,7 @@ const glm::vec3 TreeMapNavigation::mouseRayPlaneIntersection(
     // no scene object was picked - simulate picking on xz-plane
     if (depth >= 1.0 - std::numeric_limits<float>::epsilon())
         // use current center to construct reference plane
-        return mouseRayPlaneIntersection(intersects, mouse, m_cameraCapability.center(), glm::vec3(0.f, 1.f, 0.f));
+        return mouseRayPlaneIntersection(intersects, mouse, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
 
     intersects = true;
 
