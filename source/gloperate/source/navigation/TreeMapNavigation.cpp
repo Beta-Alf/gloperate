@@ -343,9 +343,8 @@ float TreeMapNavigation::clampDeltaAngle(float curAngle, float deltaAngle, float
 void TreeMapNavigation::enforceTranslationConstraints(glm::vec3 &delta)
 {
     //make sure the camera does not veer into infinity
-    auto tf = TRANSLATION_FREEDOM;
-    auto eyePos = m_cameraCapability.eye();
-    auto center = m_cameraCapability.center();
+    const auto tf = TRANSLATION_FREEDOM;
+    const auto eyePos = m_cameraCapability.eye();
 
     auto newPos = glm::clamp(eyePos + delta, glm::vec3(-MAP_EXTENT_X*tf,0,-MAP_EXTENT_Z*tf), glm::vec3(MAP_EXTENT_X*tf,1+1*tf,MAP_EXTENT_Z*tf));
     delta = newPos-eyePos;
