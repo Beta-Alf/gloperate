@@ -39,8 +39,8 @@ public:
     void reset();
 
 protected:
-    void move(const glm::vec3 &delta);
-    float getDistance(const glm::vec3 &direction);
+    void move(const glm::vec3 & delta);
+    float getDistance(const glm::vec3 & direction);
 
 protected:
     gloperate::AbstractCameraCapability & m_cameraCapability;
