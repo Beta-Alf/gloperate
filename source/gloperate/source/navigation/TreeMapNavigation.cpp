@@ -225,9 +225,9 @@ void TreeMapNavigation::scaleAtMouse(
     if (!intersects && !DepthExtractor::isValidDepth(m_coordProvider.depthAt(mouse)))
         return;
 
-    float scale = scaleDelta;
+    glm::vec3 delta = scaleDelta * (intersectPoint - eye);
 
-    const glm::vec3 newEye = eye + scale * (intersectPoint - eye);
+    const glm::vec3 newEye = eye + delta;
     const glm::vec3 newCenter = center + (newEye - eye);
 
     m_cameraCapability.setEye(newEye);
@@ -236,8 +236,7 @@ void TreeMapNavigation::scaleAtMouse(
     auto combCapability = dynamic_cast<CombinedProjectionCapability *>(m_projectionCapability);
     if(combCapability != nullptr)
     {
-        glm::ivec2 middle(m_viewportCapability.width()/2, m_viewportCapability.height()/2);
-        auto projPos = clampPointToMap(mouseRayWorldIntersection(intersects, middle));
+        auto projPos = glm::vec3(eye.x, 0.0f, eye.z);
         combCapability->setOrthoFOV(eye, projPos);
     }
 
