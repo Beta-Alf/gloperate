@@ -29,12 +29,10 @@ public:
     float getDistance(const glm::vec3& dir) const;
 
     void setCollisionFBO(globjects::ref_ptr<globjects::Framebuffer> collisionFBO, size_t texSize);
-    void setSamplingSize(size_t samplingSize);
 
 protected:
     globjects::ref_ptr<globjects::Framebuffer> m_fbo;
     size_t m_size;
-    size_t m_samplingSize;
 };
 
 } // namespace gloperate
