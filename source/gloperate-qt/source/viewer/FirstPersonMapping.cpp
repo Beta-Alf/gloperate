@@ -155,6 +155,17 @@ void FirstPersonMapping::mapMouseEvent(MouseEvent * mouseEvent)
             break;
         }
     }
+    if(mouseEvent && mouseEvent->type() == MouseEvent::Type::Release)
+    {
+        switch(mouseEvent->button())
+        {
+        case MouseButtonLeft:
+            m_mouseCaught = false;
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void FirstPersonMapping::mapWheelEvent(WheelEvent * wheelEvent)
