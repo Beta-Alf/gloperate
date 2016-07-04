@@ -17,7 +17,7 @@ namespace{
 
 namespace gloperate{
 
-FirstPersonNavigation::FirstPersonNavigation(AbstractCameraCapability &cameraCapability, CameraCollisionCapability *collisionCapability)
+FirstPersonNavigation::FirstPersonNavigation(AbstractCameraCapability & cameraCapability, CameraCollisionCapability * collisionCapability)
 : m_cameraCapability(cameraCapability)
 , m_collisionCapability(collisionCapability)
 {
@@ -36,7 +36,7 @@ void FirstPersonNavigation::move(glm::vec3 delta)
     m_cameraCapability.setCenter(m_cameraCapability.center() + delta);
 }
 
-float FirstPersonNavigation::getDistance(const glm::vec3 &direction)
+float FirstPersonNavigation::getDistance(const glm::vec3 & direction)
 {
     if(!m_collisionCapability)
         return 0.0;
@@ -44,7 +44,7 @@ float FirstPersonNavigation::getDistance(const glm::vec3 &direction)
         return m_collisionCapability->getDistance(direction);
 }
 
-void FirstPersonNavigation::rotate(const glm::vec2 &direction)
+void FirstPersonNavigation::rotate(const glm::vec2 & direction)
 {
     const glm::vec3 center = m_cameraCapability.center();
     const glm::vec3 eye = m_cameraCapability.eye();
