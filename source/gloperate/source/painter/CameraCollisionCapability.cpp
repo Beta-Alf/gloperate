@@ -20,7 +20,6 @@ namespace gloperate
 CameraCollisionCapability::CameraCollisionCapability()
 : m_fbo(nullptr)
 , m_size(1024)
-, m_samplingSize(1)
 {
 
 }
@@ -34,11 +33,6 @@ void CameraCollisionCapability::setCollisionFBO(globjects::ref_ptr<globjects::Fr
 {
     m_fbo = collisionFBO;
     m_size = texSize;
-}
-
-void CameraCollisionCapability::setSamplingSize(size_t samplingSize)
-{
-    m_samplingSize = samplingSize;
 }
 
 float CameraCollisionCapability::getDistance(const glm::vec3 &dir) const
