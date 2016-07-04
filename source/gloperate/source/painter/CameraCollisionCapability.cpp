@@ -75,18 +75,19 @@ float CameraCollisionCapability::getDistance(const glm::vec3 &dir) const
     face = face + static_cast<int>(std::signbit(main));
 
     // Sample the coordinates
-    glm::vec2 uv{u/std::abs(main), v/std::abs(main)};
-    glm::ivec2 i_uv = uv * static_cast<float>(m_size/2)+static_cast<float>(m_size/2);
-    std::vector<glm::vec3> buf(m_samplingSize*m_samplingSize);
+    glm::vec2 uv{u / std::abs(main), v / std::abs(main)};
+    glm::ivec2 test{0.f,1.f};
+    glm::ivec2 i_uv = uv * static_cast<float>(m_size / 2)+static_cast<float>(m_size / 2);
+
+    float depth;
 
     m_fbo->bind();
 
-    std::array<GLint,4> sampleRange{i_uv.x,i_uv.y,m_samplingSize,m_samplingSize};
-    m_fbo->readPixels(face, sampleRange,GL_DEPTH_COMPONENT,GL_FLOAT,buf.data());
+    m_fbo->readPixels(face, {i_uv.x, i_uv.y, 1, 1}, GL_RGB, GL_FLOAT, &depth);
 
     m_fbo->unbind();
 
-    return buf[0].x;
+    return depth;
 }
 
 
