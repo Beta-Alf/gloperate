@@ -131,6 +131,7 @@ void CombinedProjectionCapability::invalidateMatrices()
 {
     m_projection.invalidate();
     m_invertedProjection.invalidate();
+    changed();
 }
 
 } // namespace gloperate
