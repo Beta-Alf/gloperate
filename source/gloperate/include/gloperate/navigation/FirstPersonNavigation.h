@@ -36,10 +36,11 @@ public:
     void moveRelative(const glm::vec3 & direction);
     void rotate(const glm::vec2 & direction);
     void enforceRotationConstraints(float & hAngle, float & vAngle) const;
+    void enforceCollisionConstraint(glm::vec3 &delta);
     void reset();
 
 protected:
-    void move(const glm::vec3 & delta);
+    void move(glm::vec3 delta);
     float getDistance(const glm::vec3 & direction);
 
 protected:

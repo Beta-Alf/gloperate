@@ -12,6 +12,7 @@ namespace{
     float CONSTRAINT_ROT_MAX_V_LO = 0.001f;
 
     float COLLISION_RADIUS = 0.2f;
+    float COLLISION_SAFETY = 0.005f;
 }
 
 namespace gloperate{
@@ -27,15 +28,12 @@ void FirstPersonNavigation::moveRelative(const glm::vec3 & direction)
     move( glm::vec3( m_cameraCapability.viewInverted() * glm::vec4( direction, 0.0)));
 }
 
-void FirstPersonNavigation::move(const glm::vec3 & delta)
+void FirstPersonNavigation::move(glm::vec3 delta)
 {
-    float dist = getDistance(delta);
+    enforceCollisionConstraint(delta);
 
-    if(dist - glm::length(delta) > COLLISION_RADIUS)
-    {
-        m_cameraCapability.setEye(m_cameraCapability.eye() + delta);
-        m_cameraCapability.setCenter(m_cameraCapability.center() + delta);
-    }
+    m_cameraCapability.setEye(m_cameraCapability.eye() + delta);
+    m_cameraCapability.setCenter(m_cameraCapability.center() + delta);
 }
 
 float FirstPersonNavigation::getDistance(const glm::vec3 &direction)
@@ -52,8 +50,6 @@ void FirstPersonNavigation::rotate(const glm::vec2 &direction)
     const glm::vec3 eye = m_cameraCapability.eye();
     const glm::vec3 up = m_cameraCapability.up();
     const glm::vec3 yawAxis(glm::cross((center - eye), up));
-
-    //enforceRotationConstraints(direction.x, direction.y);
 
     glm::mat4x4 transform = glm::mat4x4();
     transform = glm::translate(transform, eye);
@@ -79,6 +75,34 @@ void FirstPersonNavigation::enforceRotationConstraints(
 
     auto va = acosf(glm::dot(viewDir, up));
     vAngle = glm::clamp(vAngle, CONSTRAINT_ROT_MAX_V_UP - va, CONSTRAINT_ROT_MAX_V_LO - va);
+}
+
+void FirstPersonNavigation::enforceCollisionConstraint(glm::vec3 & delta)
+{
+    float dist = getDistance(delta);
+
+    // use more samples
+    glm::vec3 up = glm::vec3(0.0, 1.0, 0.0);
+    glm::vec3 horizontal = glm::normalize(glm::cross(delta, delta+up));
+
+    glm::vec3 samples[] =
+    {
+        delta+up*COLLISION_RADIUS,
+        delta-up*COLLISION_RADIUS,
+        delta+horizontal*COLLISION_RADIUS,
+        delta-horizontal*COLLISION_RADIUS
+    };
+
+    for (auto& sample : samples)
+        dist = std::min(dist, getDistance(sample));
+
+    // if there is an imminent collision
+    if(dist - glm::length(delta) < COLLISION_RADIUS)
+    {
+        // modify delta so as to be non-colliding
+        auto scale = (dist - glm::length(delta) - COLLISION_SAFETY) / COLLISION_RADIUS;
+        delta *= std::max(0.f, scale);
+    }
 }
 
 void FirstPersonNavigation::reset()
