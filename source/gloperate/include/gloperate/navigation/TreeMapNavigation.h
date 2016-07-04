@@ -68,8 +68,7 @@ public:
 
 protected:
     // constraints
-    void enforceRotationConstraints(float & deltaHAngle
-    ,	float & deltaVAngle) const;
+    void enforceRotationConstraints(float & deltaHAngle, float & deltaVAngle) const;
 
     void enforceTranslationConstraints(glm::vec3 & delta);
 
