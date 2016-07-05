@@ -71,8 +71,7 @@ protected:
     void enforceRotationConstraints(float & deltaHAngle, float & deltaVAngle) const;
 
     void enforceTranslationConstraints(glm::vec3 & delta);
-
-    void enforceRotationConstraints();
+    void enforceTranslationCenterOnMap(glm::vec3 & delta);
     void enforceTranslationConstraints();
 
 

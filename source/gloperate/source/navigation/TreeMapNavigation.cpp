@@ -278,18 +278,19 @@ float TreeMapNavigation::clampDeltaAngle(float curAngle, float deltaAngle, float
     return targetAngle - curAngle;
 }
 
-void TreeMapNavigation::enforceTranslationConstraints(glm::vec3 &delta)
+void TreeMapNavigation::enforceTranslationConstraints(glm::vec3 & delta)
 {
     //make sure the camera does not veer into infinity
     const auto tf = TRANSLATION_FREEDOM;
-    const auto eyePos = m_cameraCapability.eye();
+    const auto eye = m_cameraCapability.eye();
+    const auto center = m_cameraCapability.center();
 
-    auto newPos = glm::clamp(eyePos + delta, glm::vec3(-MAP_EXTENT_X*tf,0,-MAP_EXTENT_Z*tf), glm::vec3(MAP_EXTENT_X*tf,1+1*tf,MAP_EXTENT_Z*tf));
-    delta = newPos-eyePos;
+    auto newPos = glm::clamp(eye + delta, glm::vec3(-MAP_EXTENT_X*tf,0,-MAP_EXTENT_Z*tf), glm::vec3(MAP_EXTENT_X*tf,1+1*tf,MAP_EXTENT_Z*tf));
+    delta = newPos-eye;
 
     //make sure at that the center is always "on" the map
     bool intersects;
-    const glm::vec3 intersection(navigationmath::rayPlaneIntersection(intersects, eyePos+delta, center+delta));
+    const glm::vec3 intersection(navigationmath::rayPlaneIntersection(intersects, eye+delta, center+delta));
     const glm::vec2 flatIntersect(intersection.x, intersection.z);
 
     if (navigationmath::insideSquare(flatIntersect, MAP_EXTENT))
@@ -299,39 +300,20 @@ void TreeMapNavigation::enforceTranslationConstraints(glm::vec3 &delta)
     // delta = glm::vec3(i.x, 0., i.y) - center;
 }
 
-void TreeMapNavigation::enforceRotationConstraints()
-{
-    /*auto eye = m_cameraCapability.eye();
-    auto center = m_cameraCapability.center();
-    auto up = m_cameraCapability.up();
-    auto viewDir = glm::normalize(eye - center);
-
-    auto horizontalDir = glm::normalize(viewDir - (up * glm::dot(viewDir, up)));
-
-    auto ha = acosf(glm::dot(m_cardinalDirection, horizontalDir));
-    hAngle = glm::clamp(hAngle, (CONSTRAINT_ROT_MAX_H - ha), -(CONSTRAINT_ROT_MAX_H - ha));
-    //auto hDist = CONSTRAINT_ROT_MAX_H-ha;
-
-    auto va = acosf(glm::dot(viewDir, up));
-    vAngle = glm::clamp(vAngle, CONSTRAINT_ROT_MAX_V_UP - va, CONSTRAINT_ROT_MAX_V_LO - va); */
-}
-
 void TreeMapNavigation::enforceTranslationConstraints()
 {
-    //make sure the camera does not veer into infinity
-    const auto tf = TRANSLATION_FREEDOM;
-    const auto eyePos = m_cameraCapability.eye();
-    const auto centerPos = m_cameraCapability.center();
+    const auto eye = m_cameraCapability.eye();
+    const auto center = m_cameraCapability.center();
 
-    auto lengthFactor = tf/glm::length(eyePos);
+    auto lengthFactor = TRANSLATION_FREEDOM/glm::length(eye);
     if(lengthFactor < 1)
     {
-        auto newEye = eyePos * lengthFactor;
+        auto newEye = eye * lengthFactor;
         newEye.y = glm::min(0.05f, newEye.y);
-        auto delta = newEye-eyePos;
+        auto delta = newEye-eye;
 
         m_cameraCapability.setEye(newEye);
-        m_cameraCapability.setCenter(centerPos+delta);
+        m_cameraCapability.setCenter(center+delta);
     }
 }
 
