@@ -328,7 +328,7 @@ void TreeMapNavigation::enforceRotationConstraints(
     auto up = m_cameraCapability.up();
     auto viewDir = glm::normalize(eye - center);
 
-    /* auto horizontalDir = glm::normalize(viewDir - (up * glm::dot(viewDir, up)));
+    auto horizontalDir = glm::normalize(viewDir - (up * glm::dot(viewDir, up)));
 
     auto ha = acosf(glm::dot(m_cardinalDirection, horizontalDir)); // TODO: make this signed
 
@@ -336,7 +336,7 @@ void TreeMapNavigation::enforceRotationConstraints(
 
     auto targetHAngle = ha + hAngle;
     targetHAngle = glm::clamp(targetHAngle, -CONSTRAINT_ROT_MAX_H, CONSTRAINT_ROT_MAX_H);
-    hAngle = targetHAngle - ha; */
+    hAngle = targetHAngle - ha;
 
 
     auto va = acosf(glm::dot(viewDir, up));
@@ -344,48 +344,34 @@ void TreeMapNavigation::enforceRotationConstraints(
 
 }
 
-void TreeMapNavigation::enforceTranslationConstraints(glm::vec3 &delta)
+void TreeMapNavigation::enforceTranslationConstraints(glm::vec3 & delta)
 {
     //make sure the camera does not veer into infinity
     auto tf = TRANSLATION_FREEDOM;
-    auto eyePos = m_cameraCapability.eye();
+    auto eye = m_cameraCapability.eye();
     auto center = m_cameraCapability.center();
 
-    auto newPos = glm::clamp(eyePos + delta, glm::vec3(-MAP_EXTENT_X*tf,0,-MAP_EXTENT_Z*tf), glm::vec3(MAP_EXTENT_X*tf,1+1*tf,MAP_EXTENT_Z*tf));
-    delta = newPos-eyePos;
+    auto newPos = glm::clamp(eye + delta, glm::vec3(-MAP_EXTENT_X*tf,0,-MAP_EXTENT_Z*tf), glm::vec3(MAP_EXTENT_X*tf,1+1*tf,MAP_EXTENT_Z*tf));
+    delta = newPos-eye;
+
+
+}
+
+void TreeMapNavigation::enforceTranslationCenterOnMap(glm::vec3 & delta)
+{
+    auto eye = m_cameraCapability.eye();
+    auto center = m_cameraCapability.center();
 
     //make sure at that the center is always "on" the map
     bool intersects;
-    const glm::vec3 intersection(navigationmath::rayPlaneIntersection(intersects, eyePos+delta, center+delta));
+    const glm::vec3 intersection(navigationmath::rayPlaneIntersection(intersects, eye+delta, center+delta));
     const glm::vec2 flatIntersect(intersection.x, intersection.z);
 
     if (navigationmath::insideSquare(flatIntersect, MAP_EXTENT))
         return;
 
-    // const glm::vec2 i = navigationmath::raySquareIntersection(flatIntersect, MAP_EXTENT);
-    // delta = glm::vec3(i.x, 0., i.y) - center;
-}
-
-void TreeMapNavigation::enforceRotationConstraints()
-{
-    /*auto eye = m_cameraCapability.eye();
-    auto center = m_cameraCapability.center();
-    auto up = m_cameraCapability.up();
-    auto viewDir = glm::normalize(eye - center);
-
-    auto horizontalDir = glm::normalize(viewDir - (up * glm::dot(viewDir, up)));
-
-    auto ha = acosf(glm::dot(m_cardinalDirection, horizontalDir));
-    hAngle = glm::clamp(hAngle, (CONSTRAINT_ROT_MAX_H - ha), -(CONSTRAINT_ROT_MAX_H - ha));
-    //auto hDist = CONSTRAINT_ROT_MAX_H-ha;
-
-    auto va = acosf(glm::dot(viewDir, up));
-    vAngle = glm::clamp(vAngle, CONSTRAINT_ROT_MAX_V_UP - va, CONSTRAINT_ROT_MAX_V_LO - va); */
-}
-
-void TreeMapNavigation::enforceTranslationConstraints()
-{
-
+    const glm::vec2 i = navigationmath::raySquareIntersection(flatIntersect, MAP_EXTENT);
+    delta = glm::vec3(i.x, 0., i.y) - center;
 }
 
 } // namespace gloperate

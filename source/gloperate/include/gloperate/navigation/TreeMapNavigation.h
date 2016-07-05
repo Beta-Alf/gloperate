@@ -73,9 +73,7 @@ public:
     ,	float & vAngle) const;
 
     void enforceTranslationConstraints(glm::vec3 & delta);
-
-    void enforceRotationConstraints();
-    void enforceTranslationConstraints();
+    void enforceTranslationCenterOnMap(glm::vec3 & delta);
 
 
 
