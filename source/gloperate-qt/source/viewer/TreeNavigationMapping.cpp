@@ -77,7 +77,7 @@ void TreeNavigationMapping::initializeTools()
     {
         auto cameraCapability = m_painter->getCapability<AbstractCameraCapability>();
         auto projectionCapability = m_painter->getCapability<AbstractProjectionCapability>();
-        auto collisionCapability = m_painter->getCapability<CameraCollisionCapability>();
+
         m_viewportCapability = m_painter->getCapability<AbstractViewportCapability>();
 
         m_typedRenderTargetCapability = m_painter->getCapability<TypedRenderTargetCapability>();

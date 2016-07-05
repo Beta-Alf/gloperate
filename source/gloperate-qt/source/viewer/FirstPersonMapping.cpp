@@ -170,12 +170,6 @@ void FirstPersonMapping::mapMouseEvent(MouseEvent * mouseEvent)
 
 void FirstPersonMapping::mapWheelEvent(WheelEvent * wheelEvent)
 {
-    /*
-    auto scale = wheelEvent->angleDelta().y;
-    scale /= WheelEvent::defaultMouseAngleDelta();
-    scale *= SCALE_FACTOR; // smoother (slower) scaling
-    m_navigation->scaleAtMouse(wheelEvent->pos(), scale);
-    */
 }
 
 } // namespace gloperate_qt
