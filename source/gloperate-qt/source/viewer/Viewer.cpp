@@ -368,12 +368,11 @@ void Viewer::setupMapping()
 {
 
     // Create input mapping for gloperate interaction techniques
-    /*
-     * if (m_painter->supports<AbstractEventRoutingCapability>())
+    if (m_painter->supports<AbstractEventRoutingCapability>())
         m_mapping.reset(new EventRoutingMapping(m_canvas.get()));
     else
-    */
-    m_mapping.reset(new FirstPersonMapping(m_canvas.get()));
+        m_mapping.reset(new TreeNavigationMapping(m_canvas.get()));
+
     m_mapping->addProvider(m_keyProvider.get());
     m_mapping->addProvider(m_mouseProvider.get());
     m_mapping->addProvider(m_wheelProvider.get());
