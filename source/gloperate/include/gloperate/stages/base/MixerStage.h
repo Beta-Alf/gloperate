@@ -10,6 +10,7 @@
 #include <globjects/VertexArray.h>
 #include <globjects/Program.h>
 
+#include <gloperate/gloperate-version.h>
 #include <gloperate/base/GlmProperties.h>
 #include <gloperate/pipeline/Stage.h>
 #include <gloperate/pipeline/Input.h>
@@ -33,7 +34,16 @@ namespace gloperate
 */
 class GLOPERATE_API MixerStage : public Stage
 {
-    CPPEXPOSE_DECLARE_COMPONENT(MixerStage, gloperate::Stage)
+public:
+    CPPEXPOSE_DECLARE_COMPONENT(
+        MixerStage, gloperate::Stage
+      , ""   // Tags
+      , ""   // Icon
+      , ""   // Annotations
+      , "Stage that renders and mixes textures into a full-screen quad"
+      , GLOPERATE_AUTHOR_ORGANIZATION
+      , "v1.0.0"
+    )
 
 
 public:
@@ -57,14 +67,12 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] viewerContext
-    *    Viewer context to which the stage belongs (must NOT be null!)
+    *  @param[in] environment
+    *    Environment to which the stage belongs (must NOT be null!)
     *  @param[in] name
     *    Stage name
-    *  @param[in] parent
-    *    Parent pipeline (can be null)
     */
-    MixerStage(ViewerContext * viewerContext, const std::string & name = "MixerStage", Pipeline * parent = nullptr);
+    MixerStage(Environment * environment, const std::string & name = "MixerStage");
 
     /**
     *  @brief

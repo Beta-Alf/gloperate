@@ -5,15 +5,16 @@
 
 #include <glbinding/gl/gl.h>
 
-#include <gloperate/gloperate-version.h>
-
 
 namespace gloperate
 {
 
 
-ProceduralTextureStage::ProceduralTextureStage(ViewerContext * viewerContext, const std::string & name, Pipeline * parent)
-: Stage(viewerContext, name, parent)
+CPPEXPOSE_COMPONENT(ProceduralTextureStage, gloperate::Stage)
+
+
+ProceduralTextureStage::ProceduralTextureStage(Environment * environment, const std::string & name)
+: Stage(environment, name)
 , texture("texture", this, nullptr)
 {
 }
@@ -60,17 +61,6 @@ void ProceduralTextureStage::createTexture()
     m_texture = globjects::Texture::createDefault(gl::GL_TEXTURE_2D);
     m_texture->image2D(0, gl::GL_RGBA8, w, h, 0, gl::GL_RGBA, gl::GL_UNSIGNED_BYTE, data);
 }
-
-
-CPPEXPOSE_COMPONENT(
-    ProceduralTextureStage, gloperate::Stage
-  , ""   // Tags
-  , ""   // Icon
-  , ""   // Annotations
-  , "Stage that creates a procedural texture"
-  , GLOPERATE_AUTHOR_ORGANIZATION
-  , "v1.0.0"
-)
 
 
 } // namespace gloperate

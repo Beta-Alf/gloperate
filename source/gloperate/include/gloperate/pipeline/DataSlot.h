@@ -69,16 +69,11 @@ public:
     //@}
 
     // Virtual AbstractProperty interface
-    virtual bool isGroup() const override;
-
-
-protected:
-    // Virtual Typed<T> interface
-    virtual void onValueChanged(const T & value) override;
+    virtual bool isObject() const override;
 };
 
 
 } // namespace cppexpose
 
 
-#include <gloperate/pipeline/DataSlot.hpp>
+#include <gloperate/pipeline/DataSlot.inl>

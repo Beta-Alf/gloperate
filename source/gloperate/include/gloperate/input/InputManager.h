@@ -6,6 +6,8 @@
 #include <vector>
 #include <memory>
 
+#include <cppexpose/reflection/Object.h>
+
 #include <gloperate/gloperate_api.h>
 #include <gloperate/input/Mapping.h>
 #include <gloperate/input/InputEvent.h>
@@ -15,6 +17,7 @@ namespace gloperate
 {
 
 
+class Environment;
 class AbstractEventConsumer;
 class AbstractDeviceProvider;
 class AbstractDevice;
@@ -25,14 +28,17 @@ class Control;
 *  @brief
 *    Manager for input device and consumers
 */
-class GLOPERATE_API InputManager
+class GLOPERATE_API InputManager : public cppexpose::Object
 {
 public:
     /**
     *  @brief
     *    Constructor
+    *
+    *  @param[in] environment
+    *    Environment to which the manager belongs (must NOT be null!)
     */
-    InputManager();
+    InputManager(Environment * environment);
 
     /**
     *  @brief
@@ -99,6 +105,7 @@ public:
 
 
 protected:
+    Environment                         * m_environment; ///< Gloperate environment to which the manager belongs
     std::list<AbstractEventConsumer *>  m_consumers;
     std::list<AbstractDeviceProvider *> m_deviceProviders;
     std::list<AbstractDevice *>         m_devices;

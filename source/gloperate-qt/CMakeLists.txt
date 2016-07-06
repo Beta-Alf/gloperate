@@ -56,48 +56,46 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/viewer/Application.h
-    ${include_path}/viewer/UpdateManager.h
-    ${include_path}/viewer/OpenGLWindow.h
-    ${include_path}/viewer/RenderWindow.h
-    ${include_path}/viewer/GLContext.h
-    ${include_path}/viewer/GLContextFactory.h
-    ${include_path}/viewer/input.h
+    ${include_path}/base/Application.h
+    ${include_path}/base/UpdateManager.h
+    ${include_path}/base/OpenGLWindow.h
+    ${include_path}/base/RenderWindow.h
+    ${include_path}/base/GLContext.h
+    ${include_path}/base/GLContextFactory.h
+    ${include_path}/base/Converter.h
+    ${include_path}/base/input.h
 
     ${include_path}/scripting/ECMA26251Completer.h
     ${include_path}/scripting/ECMA26251SyntaxHighlighter.h
     ${include_path}/scripting/ScriptCompleter.h
     ${include_path}/scripting/ScriptPromptWidget.h
     ${include_path}/scripting/ScriptSyntaxHighlighter.h
-
-    ${include_path}/utils/Converter.h
 )
 
 set(sources
-    ${source_path}/viewer/Application.cpp
-    ${source_path}/viewer/UpdateManager.cpp
-    ${source_path}/viewer/OpenGLWindow.cpp
-    ${source_path}/viewer/RenderWindow.cpp
-    ${source_path}/viewer/GLContext.cpp
-    ${source_path}/viewer/GLContext_qt.cpp
-    ${source_path}/viewer/GLContextFactory.cpp
-    ${source_path}/viewer/input.cpp
+    ${source_path}/base/Application.cpp
+    ${source_path}/base/UpdateManager.cpp
+    ${source_path}/base/OpenGLWindow.cpp
+    ${source_path}/base/RenderWindow.cpp
+    ${source_path}/base/GLContext.cpp
+    ${source_path}/base/GLContext_qt.cpp
+    ${source_path}/base/GLContextFactory.cpp
+    ${source_path}/base/Converter.cpp
+    ${source_path}/base/input.cpp
     
     ${source_path}/scripting/ECMA26251Completer.cpp
     ${source_path}/scripting/ECMA26251SyntaxHighlighter.cpp
     ${source_path}/scripting/ScriptCompleter.cpp
     ${source_path}/scripting/ScriptPromptWidget.cpp
     ${source_path}/scripting/ScriptSyntaxHighlighter.cpp
-
-    ${source_path}/utils/Converter.cpp
 )
 
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${include_path} "\\\\.h$|\\\\.inl$" 
     ${header_group} ${headers})
-source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.inl$" 
     ${source_group} ${sources})
 
 

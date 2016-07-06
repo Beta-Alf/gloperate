@@ -19,18 +19,18 @@ namespace gloperate
 *
 *    A pipeline consists of several stages which are executed by the order
 *    of their mutual dependencies. The pipeline itself is a stage and can
-*    be used in the same way as any other stage, e.g., it can be part of
+*    be used in the same way as any other stage, i.e., it can be part of
 *    other pipelines.
 *
 *    The pipeline concept is that of a pull-pipeline:
-*    - Output data can be marked as 'required'. Any stage will try to produce
+*    - Output data can be marked as 'required'. Any stage has to produce
 *      all required output data, so if a stage has an output that is required
 *      but invalid, it will be executed in order to produce that output.
-*    - If output data is 'required', all input slots from that stage are also
-*      marked as 'required'. This determines which stages will be executed
-*      on a pipeline.
-*    - When input data has changed, it will invalidate the respective outputs
-*      of its stage, so any change of input data will propagate through the
+*    - By default, if output data is 'required', all input slots from that
+*      stage are also marked as 'required'. This determines which stages
+*      will be executed on a pipeline.
+*    - When input data has changed, the respective outputs of its stage are
+*      invalidated, so any change of input data will propagate through the
 *      pipeline immediately and invalidate all outputs that, directly or
 *      indirectly, depend on that input.
 */
@@ -49,14 +49,12 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] viewerContext
-    *    Viewer context to which the stage belongs (must NOT be null!)
+    *  @param[in] environment
+    *    Environment to which the stage belongs (must NOT be null!)
     *  @param[in] name
     *    Stage name
-    *  @param[in] parent
-    *    Parent pipeline (can be null)
     */
-    Pipeline(ViewerContext * viewerContext, const std::string & name = "Pipeline", Pipeline * parent = nullptr);
+    Pipeline(Environment * environment, const std::string & name = "Pipeline");
 
     /**
     *  @brief
@@ -102,8 +100,27 @@ public:
     *
     *  @param[in] stage
     *    Stage (must NOT be null!)
+    *
+    *  @return
+    *    'true' if the stage was removed, else 'false'
+    *
+    *  If the stage is not part of the pipeline, nothing happens
     */
-    void removeStage(Stage * stage);
+    bool removeStage(Stage * stage);
+
+    /**
+    *  @brief
+    *    Remove and destroy stage
+    *
+    *  @param[in] stage
+    *    Stage (must NOT be null!)
+    *
+    *  @return
+    *    'true' if the stage was removed and destroyed, else 'false'
+    *
+    *  If the stage is not part of the pipeline, nothing happens
+    */
+    bool destroyStage(Stage * stage);
 
     // Virtual Stage interface
     virtual bool isPipeline() const override;
@@ -122,11 +139,10 @@ protected:
     virtual void onProcess(AbstractGLContext * context) override;
     virtual void onInputValueChanged(AbstractSlot * slot) override;
     virtual void onOutputRequiredChanged(AbstractSlot * slot) override;
-    virtual void onPipelineEvent(const PipelineEvent & event) override;
 
 
 protected:
-    std::vector<Stage *>                     m_stages;    ///< List of stages in the pipeline
+    std::vector<Stage *>                     m_stages;    ///< List of topologically sorted stages in the pipeline
     std::unordered_map<std::string, Stage *> m_stagesMap; ///< Map of names -> stages
     bool                                     m_sorted;    ///< Have the stages of the pipeline already been sorted?
 };

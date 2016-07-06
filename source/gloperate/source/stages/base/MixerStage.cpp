@@ -14,7 +14,6 @@
 #include <globjects/Texture.h>
 
 #include <gloperate/gloperate.h>
-#include <gloperate/gloperate-version.h>
 
 
 /**
@@ -41,8 +40,11 @@ namespace gloperate
 {
 
 
-MixerStage::MixerStage(ViewerContext * viewerContext, const std::string & name, Pipeline * parent)
-: Stage(viewerContext, name, parent)
+CPPEXPOSE_COMPONENT(MixerStage, gloperate::Stage)
+
+
+MixerStage::MixerStage(Environment * environment, const std::string & name)
+: Stage(environment, name)
 , viewport      ("viewport", this)
 , targetFBO     ("targetFBO", this)
 , texture       ("texture", this)
@@ -55,12 +57,10 @@ MixerStage::MixerStage(ViewerContext * viewerContext, const std::string & name, 
 {
     // Get data path
     std::string dataPath = gloperate::dataPath();
-    if (dataPath.size() > 0) dataPath = dataPath + "/";
-    else                     dataPath = "data/";
 
     // Set default values
-    vertexShader  .setValue(dataPath + "gloperate/shaders/Mixer/Mixer.vert");
-    fragmentShader.setValue(dataPath + "gloperate/shaders/Mixer/Mixer.frag");
+    vertexShader  .setValue(dataPath + "/gloperate/shaders/Mixer/Mixer.vert");
+    fragmentShader.setValue(dataPath + "/gloperate/shaders/Mixer/Mixer.frag");
 }
 
 MixerStage::~MixerStage()
@@ -191,17 +191,6 @@ void MixerStage::buildProgram()
     // Program has been built
     m_rebuildProgram = false;
 }
-
-
-CPPEXPOSE_COMPONENT(
-    MixerStage, gloperate::Stage
-  , ""   // Tags
-  , ""   // Icon
-  , ""   // Annotations
-  , "Stage that renders and mixes textures into a full-screen quad"
-  , GLOPERATE_AUTHOR_ORGANIZATION
-  , "v1.0.0"
-)
 
 
 } // namespace gloperate

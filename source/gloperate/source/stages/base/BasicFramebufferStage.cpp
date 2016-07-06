@@ -3,16 +3,16 @@
 
 #include <glbinding/gl/gl.h>
 
-#include <gloperate/gloperate-version.h>
-#include <gloperate/viewer/ViewerContext.h>
-
 
 namespace gloperate
 {
 
 
-BasicFramebufferStage::BasicFramebufferStage(ViewerContext * viewerContext, const std::string & name, Pipeline * parent)
-: Stage(viewerContext, name, parent)
+CPPEXPOSE_COMPONENT(BasicFramebufferStage, gloperate::Stage)
+
+
+BasicFramebufferStage::BasicFramebufferStage(Environment * environment, const std::string & name)
+: Stage(environment, name)
 , viewport    ("viewport", this)
 , fbo         ("fbo", this)
 , colorTexture("colorTexture", this)
@@ -66,17 +66,6 @@ void BasicFramebufferStage::rebuildFBO()
     m_fbo->attachTexture(gl::GL_COLOR_ATTACHMENT0, m_texColor.get());
     m_fbo->attachTexture(gl::GL_DEPTH_ATTACHMENT,  m_texDepth.get());
 }
-
-
-CPPEXPOSE_COMPONENT(
-    BasicFramebufferStage, gloperate::Stage
-  , ""   // Tags
-  , ""   // Icon
-  , ""   // Annotations
-  , "Stage that maintains a basic framebuffer with a color and depth attachment"
-  , GLOPERATE_AUTHOR_ORGANIZATION
-  , "v1.0.0"
-)
 
 
 } // namespace gloperate

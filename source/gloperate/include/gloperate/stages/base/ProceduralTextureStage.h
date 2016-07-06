@@ -7,6 +7,7 @@
 #include <globjects/base/ref_ptr.h>
 #include <globjects/Texture.h>
 
+#include <gloperate/gloperate-version.h>
 #include <gloperate/pipeline/Stage.h>
 #include <gloperate/pipeline/Output.h>
 
@@ -21,7 +22,16 @@ namespace gloperate
 */
 class GLOPERATE_API ProceduralTextureStage : public Stage
 {
-    CPPEXPOSE_DECLARE_COMPONENT(ProceduralTextureStage, gloperate::Stage)
+public:
+    CPPEXPOSE_DECLARE_COMPONENT(
+        ProceduralTextureStage, gloperate::Stage
+      , ""   // Tags
+      , ""   // Icon
+      , ""   // Annotations
+      , "Stage that creates a procedural texture"
+      , GLOPERATE_AUTHOR_ORGANIZATION
+      , "v1.0.0"
+    )
 
 
 public:
@@ -34,14 +44,12 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] viewerContext
-    *    Viewer context to which the stage belongs (must NOT be null!)
+    *  @param[in] environment
+    *    Environment to which the stage belongs (must NOT be null!)
     *  @param[in] name
     *    Stage name
-    *  @param[in] parent
-    *    Parent pipeline (can be null)
     */
-    ProceduralTextureStage(ViewerContext * viewerContext, const std::string & name = "ProceduralTextureStage", Pipeline * parent = nullptr);
+    ProceduralTextureStage(Environment * environment, const std::string & name = "ProceduralTextureStage");
 
     /**
     *  @brief

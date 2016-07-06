@@ -16,9 +16,6 @@
 #include <globjects/globjects.h>
 
 #include <gloperate/gloperate.h>
-#include <gloperate/gloperate-version.h>
-#include <gloperate/viewer/ViewerContext.h>
-#include <gloperate/base/ResourceManager.h>
 
 
 // Geometry describing the triangle
@@ -67,8 +64,12 @@ namespace gloperate
 {
 
 
-DemoTriangleStage::DemoTriangleStage(ViewerContext * viewerContext, const std::string & name, Pipeline * parent)
-: RenderStage(viewerContext, name, parent)
+CPPEXPOSE_COMPONENT(DemoTriangleStage, gloperate::Stage)
+
+
+DemoTriangleStage::DemoTriangleStage(Environment * environment, const std::string & name)
+: Stage(environment, name)
+, renderInterface(this)
 , texture        ("texture",         this, nullptr)
 , angle          ("angle",           this, 0.0f)
 , colorTexture   ("colorTexture",    this, nullptr)
@@ -95,7 +96,7 @@ void DemoTriangleStage::onContextDeinit(AbstractGLContext *)
 void DemoTriangleStage::onProcess(AbstractGLContext *)
 {
     // Get viewport
-    glm::vec4 viewport = *deviceViewport;
+    glm::vec4 viewport = *renderInterface.deviceViewport;
 
     // Update viewport
     gl::glViewport(
@@ -106,12 +107,12 @@ void DemoTriangleStage::onProcess(AbstractGLContext *)
     );
 
     // Bind FBO
-    globjects::Framebuffer * fbo = *targetFBO;
+    globjects::Framebuffer * fbo = *renderInterface.targetFBO;
     if (!fbo) fbo = globjects::Framebuffer::defaultFBO();
     fbo->bind(gl::GL_FRAMEBUFFER);
 
     // Clear background
-    glm::vec3 color = *backgroundColor;
+    glm::vec3 color = *renderInterface.backgroundColor;
     gl::glClearColor(color.r, color.g, color.b, 1.0f);
     gl::glScissor(viewport.x, viewport.y, viewport.z, viewport.w);
     gl::glEnable(gl::GL_SCISSOR_TEST);
@@ -123,13 +124,12 @@ void DemoTriangleStage::onProcess(AbstractGLContext *)
     model = glm::rotate(model, *angle, glm::vec3(0.0, 1.0, 0.0));
 
     // Update model-view-projection matrix
-    m_program->setUniform("viewProjectionMatrix",      m_camera->viewProjection());
-    m_program->setUniform("modelViewProjectionMatrix", m_camera->viewProjection() * model);
+    m_program->setUniform("viewProjectionMatrix",      m_camera.viewProjection());
+    m_program->setUniform("modelViewProjectionMatrix", m_camera.viewProjection() * model);
 
     // Bind texture
     if (*texture) {
-        gl::glActiveTexture(gl::GL_TEXTURE0 + 0);
-        (*texture)->bind();
+        (*texture)->bindActive(0);
     }
 
     // Draw geometry
@@ -139,7 +139,7 @@ void DemoTriangleStage::onProcess(AbstractGLContext *)
 
     // Unbind texture
     if (*texture) {
-        (*texture)->unbind();
+        (*texture)->unbindActive(0);
     }
 
     // Unbind FBO
@@ -150,7 +150,7 @@ void DemoTriangleStage::onProcess(AbstractGLContext *)
     colorTextureOut.setValue(*colorTexture);
 
     // Signal that output is valid
-    rendered.setValue(true);
+    renderInterface.rendered.setValue(true);
 }
 
 void DemoTriangleStage::setupGeometry()
@@ -168,8 +168,7 @@ void DemoTriangleStage::setupGeometry()
 
 void DemoTriangleStage::setupCamera()
 {
-    m_camera = new Camera();
-    m_camera->setEye(glm::vec3(0.0, 0.0, 12.0));
+    m_camera.setEye(glm::vec3(0.0, 0.0, 12.0));
 }
 
 void DemoTriangleStage::setupProgram()
@@ -189,17 +188,6 @@ void DemoTriangleStage::setupProgram()
 
     m_program->setUniform("source", 0);
 }
-
-
-CPPEXPOSE_COMPONENT(
-    DemoTriangleStage, gloperate::Stage
-  , "RenderStage"   // Tags
-  , ""              // Icon
-  , ""              // Annotations
-  , "Demo stage that renders a rotating triangle onto the screen"
-  , GLOPERATE_AUTHOR_ORGANIZATION
-  , "v1.0.0"
-)
 
 
 } // namespace gloperate

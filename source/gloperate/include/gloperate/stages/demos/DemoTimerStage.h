@@ -4,7 +4,8 @@
 
 #include <cppexpose/plugin/plugin_api.h>
 
-#include <gloperate/viewer/Timer.h>
+#include <gloperate/gloperate-version.h>
+#include <gloperate/base/Timer.h>
 #include <gloperate/pipeline/Stage.h>
 #include <gloperate/pipeline/Input.h>
 #include <gloperate/pipeline/Output.h>
@@ -23,7 +24,16 @@ namespace gloperate
 */
 class GLOPERATE_API DemoTimerStage : public Stage
 {
-    CPPEXPOSE_DECLARE_COMPONENT(DemoTimerStage, gloperate::Stage)
+public:
+    CPPEXPOSE_DECLARE_COMPONENT(
+        DemoTimerStage, gloperate::Stage
+      , ""   // Tags
+      , ""   // Icon
+      , ""   // Annotations
+      , "Demo stage that creates a constant timer"
+      , GLOPERATE_AUTHOR_ORGANIZATION
+      , "v1.0.0"
+    )
 
 
 public:
@@ -39,14 +49,12 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] viewerContext
-    *    Viewer context to which the stage belongs (must NOT be null!)
+    *  @param[in] environment
+    *    Environment to which the stage belongs (must NOT be null!)
     *  @param[in] name
     *    Stage name
-    *  @param[in] parent
-    *    Parent pipeline (can be null)
     */
-    DemoTimerStage(ViewerContext * viewerContext, const std::string & name = "DemoTimerStage", Pipeline * parent = nullptr);
+    DemoTimerStage(Environment * environment, const std::string & name = "DemoTimerStage");
 
     /**
     *  @brief

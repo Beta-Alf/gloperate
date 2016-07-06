@@ -13,6 +13,7 @@ find_package(Qt5Gui     5.1)
 find_package(Qt5Widgets 5.1)
 find_package(Qt5Quick   5.1)
 
+
 # Enable automoc
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)

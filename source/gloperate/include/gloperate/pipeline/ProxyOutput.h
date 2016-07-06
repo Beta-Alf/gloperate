@@ -38,10 +38,15 @@ public:
     *    Destructor
     */
     virtual ~ProxyOutput();
+
+
+protected:
+    // Virtual Typed<T> interface
+    virtual void onValueChanged(const T & value) override;
 };
 
 
 } // namespace cppexpose
 
 
-#include <gloperate/pipeline/ProxyOutput.hpp>
+#include <gloperate/pipeline/ProxyOutput.inl>

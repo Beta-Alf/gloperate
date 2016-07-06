@@ -10,6 +10,7 @@
 #include <globjects/VertexArray.h>
 #include <globjects/Program.h>
 
+#include <gloperate/gloperate-version.h>
 #include <gloperate/base/GlmProperties.h>
 #include <gloperate/pipeline/Stage.h>
 #include <gloperate/pipeline/Input.h>
@@ -33,7 +34,16 @@ namespace gloperate
 */
 class GLOPERATE_API SplitStage : public Stage
 {
-    CPPEXPOSE_DECLARE_COMPONENT(SplitStage, gloperate::Stage)
+public:
+    CPPEXPOSE_DECLARE_COMPONENT(
+        SplitStage, gloperate::Stage
+      , ""   // Tags
+      , ""   // Icon
+      , ""   // Annotations
+      , "Stage that splits the view into two"
+      , GLOPERATE_AUTHOR_ORGANIZATION
+      , "v1.0.0"
+    )
 
 
 public:
@@ -58,14 +68,12 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] viewerContext
-    *    Viewer context to which the stage belongs (must NOT be null!)
+    *  @param[in] environment
+    *    Environment to which the stage belongs (must NOT be null!)
     *  @param[in] name
     *    Stage name
-    *  @param[in] parent
-    *    Parent pipeline (can be null)
     */
-    SplitStage(ViewerContext * viewerContext, const std::string & name = "SplitStage", Pipeline * parent = nullptr);
+    SplitStage(Environment * environment, const std::string & name = "SplitStage");
 
     /**
     *  @brief

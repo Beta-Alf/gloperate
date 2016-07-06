@@ -41,33 +41,33 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${include_path}/viewer/Application.h
-    ${include_path}/viewer/WindowEventDispatcher.h
-    ${include_path}/viewer/WindowEvent.h
-    ${include_path}/viewer/Window.h
-    ${include_path}/viewer/RenderWindow.h
-    ${include_path}/viewer/GLContext.h
-    ${include_path}/viewer/GLContextFactory.h
-    ${include_path}/viewer/input.h
+    ${include_path}/Application.h
+    ${include_path}/WindowEventDispatcher.h
+    ${include_path}/WindowEvent.h
+    ${include_path}/Window.h
+    ${include_path}/RenderWindow.h
+    ${include_path}/GLContext.h
+    ${include_path}/GLContextFactory.h
+    ${include_path}/input.h
 )
 
 set(sources
-    ${source_path}/viewer/Application.cpp
-    ${source_path}/viewer/WindowEventDispatcher.cpp
-    ${source_path}/viewer/WindowEvent.cpp
-    ${source_path}/viewer/Window.cpp
-    ${source_path}/viewer/RenderWindow.cpp
-    ${source_path}/viewer/GLContext.cpp
-    ${source_path}/viewer/GLContextFactory.cpp
-    ${source_path}/viewer/input.cpp
+    ${source_path}/Application.cpp
+    ${source_path}/WindowEventDispatcher.cpp
+    ${source_path}/WindowEvent.cpp
+    ${source_path}/Window.cpp
+    ${source_path}/RenderWindow.cpp
+    ${source_path}/GLContext.cpp
+    ${source_path}/GLContextFactory.cpp
+    ${source_path}/input.cpp
 )
 
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${include_path} "\\\\.h$|\\\\.inl$" 
     ${header_group} ${headers})
-source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.inl$" 
     ${source_group} ${sources})
 
 
@@ -134,6 +134,9 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${GLFW_LIBRARIES}
+    ${GLFW_cocoa_LIBRARY}
+    ${GLFW_iokit_LIBRARY}
+    ${GLFW_corevideo_LIBRARY}
     cpplocate::cpplocate
     cppexpose::cppexpose
     cppassist::cppassist

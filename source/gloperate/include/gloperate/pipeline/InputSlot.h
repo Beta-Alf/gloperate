@@ -168,12 +168,7 @@ public:
     virtual void onRequiredChanged() override;
 
     // Virtual AbstractProperty interface
-    virtual bool isGroup() const override;
-
-
-protected:
-    // Virtual Typed<T> interface
-    virtual void onValueChanged(const T & value) override;
+    virtual bool isObject() const override;
 
 
 protected:
@@ -184,6 +179,7 @@ protected:
 protected:
     T                             m_defaultValue; ///< Default value that is returned if unconnected
     union {
+        AbstractSlot            * slot;           ///< Common Superclass pointer for current connection (can be null)
         Input<T>                * input;          ///< Connected input (can be null)
         Parameter<T>            * parameter;      ///< Connected parameter (can be null)
         Output<T>               * output;         ///< Connected output (can be null)
@@ -197,4 +193,4 @@ protected:
 } // namespace cppexpose
 
 
-#include <gloperate/pipeline/InputSlot.hpp>
+#include <gloperate/pipeline/InputSlot.inl>

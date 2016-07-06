@@ -14,7 +14,6 @@
 #include <globjects/Texture.h>
 
 #include <gloperate/gloperate.h>
-#include <gloperate/gloperate-version.h>
 
 
 /**
@@ -41,8 +40,11 @@ namespace gloperate
 {
 
 
-SplitStage::SplitStage(ViewerContext * viewerContext, const std::string & name, Pipeline * parent)
-: Stage(viewerContext, name, parent)
+CPPEXPOSE_COMPONENT(SplitStage, gloperate::Stage)
+
+
+SplitStage::SplitStage(Environment * environment, const std::string & name)
+: Stage(environment, name)
 , viewport      ("viewport", this)
 , targetFBO     ("targetFBO", this)
 , texture1      ("texture1", this)
@@ -56,12 +58,10 @@ SplitStage::SplitStage(ViewerContext * viewerContext, const std::string & name, 
 {
     // Get data path
     std::string dataPath = gloperate::dataPath();
-    if (dataPath.size() > 0) dataPath = dataPath + "/";
-    else                     dataPath = "data/";
 
     // Set default values
-    vertexShader  .setValue(dataPath + "gloperate/shaders/Mixer/Mixer.vert");
-    fragmentShader.setValue(dataPath + "gloperate/shaders/Mixer/Mixer.frag");
+    vertexShader  .setValue(dataPath + "/gloperate/shaders/Mixer/Mixer.vert");
+    fragmentShader.setValue(dataPath + "/gloperate/shaders/Mixer/Mixer.frag");
 }
 
 SplitStage::~SplitStage()
@@ -104,8 +104,7 @@ void SplitStage::onProcess(AbstractGLContext *)
 
     // Bind texture #1
     if (*texture1) {
-        gl::glActiveTexture(gl::GL_TEXTURE0 + 0);
-        (*texture1)->bind();
+        (*texture1)->bindActive(0);
     }
 
     // Draw screen-aligned quad
@@ -116,7 +115,7 @@ void SplitStage::onProcess(AbstractGLContext *)
 
     // Unbind texture #1
     if (*texture1) {
-        (*texture1)->unbind();
+        (*texture1)->unbindActive(0);
     }
 
     // Set viewport for texture #2
@@ -124,8 +123,7 @@ void SplitStage::onProcess(AbstractGLContext *)
 
     // Bind texture #2
     if (*texture2) {
-        gl::glActiveTexture(gl::GL_TEXTURE0 + 0);
-        (*texture2)->bind();
+        (*texture2)->bindActive(0);
     }
 
     // Draw screen-aligned quad
@@ -136,7 +134,7 @@ void SplitStage::onProcess(AbstractGLContext *)
 
     // Unbind texture #2
     if (*texture2) {
-        (*texture2)->unbind();
+        (*texture2)->unbindActive(0);
     }
 
     // Restore OpenGL states
@@ -211,17 +209,6 @@ void SplitStage::buildProgram()
     // Program has been built
     m_rebuildProgram = false;
 }
-
-
-CPPEXPOSE_COMPONENT(
-    SplitStage, gloperate::Stage
-  , ""   // Tags
-  , ""   // Icon
-  , ""   // Annotations
-  , "Stage that splits the view into two"
-  , GLOPERATE_AUTHOR_ORGANIZATION
-  , "v1.0.0"
-)
 
 
 } // namespace gloperate

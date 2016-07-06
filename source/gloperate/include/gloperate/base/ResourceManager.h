@@ -6,6 +6,7 @@
 #include <vector>
 #include <functional>
 
+#include <cppexpose/reflection/Object.h>
 #include <cppexpose/variant/Variant.h>
 
 #include <gloperate/gloperate_api.h>
@@ -15,7 +16,7 @@ namespace gloperate
 {
 
 
-class ViewerContext;
+class Environment;
 class AbstractLoader;
 class AbstractStorer;
 
@@ -24,17 +25,17 @@ class AbstractStorer;
 *  @brief
 *    Class to help loading/accessing resources (textures, ...)
 */
-class GLOPERATE_API ResourceManager
+class GLOPERATE_API ResourceManager : public cppexpose::Object
 {
 public:
     /**
     *  @brief
     *    Constructor
     *
-    *  @param[in] viewerContext
-    *    Viewer context (must NOT be null!)
+    *  @param[in] environment
+    *    Environment (must NOT be null!)
     */
-    ResourceManager(ViewerContext * viewerContext);
+    ResourceManager(Environment * environment);
 
     /**
     *  @brief
@@ -112,13 +113,13 @@ protected:
 
 
 protected:
-    ViewerContext                         * m_viewerContext; ///< Viewer context (must NOT be null!)
-    mutable std::vector<AbstractLoader *>   m_loaders;       ///< Available loaders
-    mutable std::vector<AbstractStorer *>   m_storers;       ///< Available storers
+    Environment                           * m_environment; ///< Gloperate environment (must NOT be null!)
+    mutable std::vector<AbstractLoader *>   m_loaders;     ///< Available loaders
+    mutable std::vector<AbstractStorer *>   m_storers;     ///< Available storers
 };
 
 
 } // namespace gloperate
 
 
-#include <gloperate/base/ResourceManager.hpp>
+#include <gloperate/base/ResourceManager.inl>

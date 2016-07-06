@@ -4,7 +4,9 @@
 
 #include <cppexpose/plugin/plugin_api.h>
 
-#include <gloperate/pipeline/RenderPipeline.h>
+#include <gloperate/gloperate-version.h>
+#include <gloperate/pipeline/Pipeline.h>
+#include <gloperate/stages/interfaces/RenderInterface.h>
 
 
 namespace gloperate
@@ -24,9 +26,23 @@ class DemoTriangleStage;
 *  @brief
 *    Demo pipeline displaying a rotating logo
 */
-class GLOPERATE_API DemoPipeline : public RenderPipeline
+class GLOPERATE_API DemoPipeline : public Pipeline
 {
-    CPPEXPOSE_DECLARE_COMPONENT(DemoPipeline, gloperate::Stage)
+public:
+    CPPEXPOSE_DECLARE_COMPONENT(
+        DemoPipeline, gloperate::Stage
+      , "RenderStage"   // Tags
+      , ""              // Icon
+      , ""              // Annotations
+      , "Demo pipeline displaying a rotating logo"
+      , GLOPERATE_AUTHOR_ORGANIZATION
+      , "v1.0.0"
+    )
+
+
+public:
+    // Interfaces
+    RenderInterface<Pipeline> renderInterface; ///< Interface for rendering into a viewer
 
 
 public:
@@ -34,14 +50,12 @@ public:
     *  @brief
     *    Constructor
     *
-    *  @param[in] viewerContext
-    *    Viewer context to which the stage belongs (must NOT be null!)
+    *  @param[in] environment
+    *    Environment to which the stage belongs (must NOT be null!)
     *  @param[in] name
     *    Stage name
-    *  @param[in] parent
-    *    Parent pipeline (can be null)
     */
-    DemoPipeline(ViewerContext * viewerContext, const std::string & name = "DemoPipeline", Pipeline * parent = nullptr);
+    DemoPipeline(Environment * environment, const std::string & name = "DemoPipeline");
 
     /**
     *  @brief

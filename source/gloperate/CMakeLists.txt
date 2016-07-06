@@ -38,68 +38,65 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${include_path}/gloperate.h
 
+    ${include_path}/base/Environment.h
+    ${include_path}/base/System.h
+    ${include_path}/base/PipelineApi.h
+    ${include_path}/base/ComponentManager.h
+    ${include_path}/base/ResourceManager.h
+    ${include_path}/base/ResourceManager.inl
+    ${include_path}/base/AbstractCanvas.h
+    ${include_path}/base/Canvas.h
+    ${include_path}/base/PipelineContainer.h
+    ${include_path}/base/AbstractContext.h
+    ${include_path}/base/AbstractGLContext.h
+    ${include_path}/base/AbstractGLContextFactory.h
+    ${include_path}/base/GLContextFormat.h
+    ${include_path}/base/GLContextUtils.h
     ${include_path}/base/CachedValue.h
-    ${include_path}/base/CachedValue.hpp
+    ${include_path}/base/CachedValue.inl
     ${include_path}/base/ChronoTimer.h
     ${include_path}/base/AutoTimer.h
+    ${include_path}/base/TimeManager.h
+    ${include_path}/base/Timer.h
+    ${include_path}/base/ScriptTimer.h
     ${include_path}/base/Image.h
-    ${include_path}/base/ResourceManager.h
-    ${include_path}/base/ResourceManager.hpp
     ${include_path}/base/AbstractLoader.h
     ${include_path}/base/AbstractStorer.h
     ${include_path}/base/Loader.h
-    ${include_path}/base/Loader.hpp
+    ${include_path}/base/Loader.inl
     ${include_path}/base/Storer.h
-    ${include_path}/base/Storer.hpp
+    ${include_path}/base/Storer.inl
     ${include_path}/base/GlmProperties.h
-
-    ${include_path}/viewer/AbstractContext.h
-    ${include_path}/viewer/AbstractGLContext.h
-    ${include_path}/viewer/AbstractGLContextFactory.h
-    ${include_path}/viewer/GLContextFormat.h
-    ${include_path}/viewer/GLContextUtils.h
-    ${include_path}/viewer/ViewerContext.h
-    ${include_path}/viewer/Surface.h
-    ${include_path}/viewer/RenderSurface.h
-    ${include_path}/viewer/TimeManager.h
-    ${include_path}/viewer/Timer.h
-
-    ${include_path}/scripting/ScriptEnvironment.h
-    ${include_path}/scripting/SystemApi.h
-    ${include_path}/scripting/TimerApi.h
-    ${include_path}/scripting/ScriptTimer.h
-    ${include_path}/scripting/ComponentsApi.h
-    ${include_path}/scripting/PipelineApi.h
-    ${include_path}/scripting/PipelineApiWatcher.h
 
     ${include_path}/pipeline/AbstractSlot.h
     ${include_path}/pipeline/AbstractDataSlot.h
     ${include_path}/pipeline/AbstractInputSlot.h
     ${include_path}/pipeline/DataSlot.h
-    ${include_path}/pipeline/DataSlot.hpp
+    ${include_path}/pipeline/DataSlot.inl
     ${include_path}/pipeline/InputSlot.h
-    ${include_path}/pipeline/InputSlot.hpp
+    ${include_path}/pipeline/InputSlot.inl
     ${include_path}/pipeline/Parameter.h
-    ${include_path}/pipeline/Parameter.hpp
+    ${include_path}/pipeline/Parameter.inl
     ${include_path}/pipeline/Input.h
-    ${include_path}/pipeline/Input.hpp
+    ${include_path}/pipeline/Input.inl
     ${include_path}/pipeline/Output.h
-    ${include_path}/pipeline/Output.hpp
+    ${include_path}/pipeline/Output.inl
     ${include_path}/pipeline/ProxyOutput.h
-    ${include_path}/pipeline/ProxyOutput.hpp
+    ${include_path}/pipeline/ProxyOutput.inl
     ${include_path}/pipeline/Stage.h
-    ${include_path}/pipeline/RenderStage.h
     ${include_path}/pipeline/Pipeline.h
-    ${include_path}/pipeline/RenderPipeline.h
-    ${include_path}/pipeline/ViewerContainer.h
-    ${include_path}/pipeline/RenderInterface.h
+    ${include_path}/pipeline/OutputTypeSelector.h
     ${include_path}/pipeline/StageComponent.h
-    ${include_path}/pipeline/StageComponent.hpp
-    ${include_path}/pipeline/PipelineWatcher.h
-    ${include_path}/pipeline/PipelineEvent.h
+    ${include_path}/pipeline/StageComponent.inl
 
+    ${include_path}/rendering/AbstractDrawable.h
     ${include_path}/rendering/Camera.h
+    ${include_path}/rendering/Drawable.h
+    ${include_path}/rendering/Drawable.inl
+    ${include_path}/rendering/RenderPass.h
 
+    ${include_path}/stages/interfaces/RenderInterface.h
+    ${include_path}/stages/interfaces/RenderInterface.inl
     ${include_path}/stages/base/BasicFramebufferStage.h
     ${include_path}/stages/base/TextureLoadStage.h
     ${include_path}/stages/base/ProceduralTextureStage.h
@@ -110,6 +107,7 @@ set(headers
     ${include_path}/stages/demos/DemoTriangleStage.h
     ${include_path}/stages/demos/DemoTimerStage.h
 
+    ${include_path}/input/constants.h
     ${include_path}/input/InputManager.h
     ${include_path}/input/InputManager.h
     ${include_path}/input/AbstractEventConsumer.h
@@ -126,51 +124,47 @@ set(headers
     ${include_path}/input/MetaphorPrinter.h
     ${include_path}/input/Metaphor.hpp
     ${include_path}/input/Mapping.h
+
+    ${include_path}/tools/AbstractVideoExporter.h
+    ${include_path}/tools/ImageExporter.h
 )
 
 set(sources
     ${source_path}/gloperate.cpp
 
+    ${source_path}/base/Environment.cpp
+    ${source_path}/base/System.cpp
+    ${source_path}/base/PipelineApi.cpp
+    ${source_path}/base/ComponentManager.cpp
+    ${source_path}/base/ResourceManager.cpp
+    ${source_path}/base/AbstractCanvas.cpp
+    ${source_path}/base/Canvas.cpp
+    ${source_path}/base/PipelineContainer.cpp
+    ${source_path}/base/AbstractContext.cpp
+    ${source_path}/base/AbstractGLContext.cpp
+    ${source_path}/base/AbstractGLContextFactory.cpp
+    ${source_path}/base/GLContextFormat.cpp
+    ${source_path}/base/GLContextUtils.cpp
     ${source_path}/base/ChronoTimer.cpp
     ${source_path}/base/AutoTimer.cpp
+    ${source_path}/base/TimeManager.cpp
+    ${source_path}/base/Timer.cpp
+    ${source_path}/base/ScriptTimer.cpp
     ${source_path}/base/Image.cpp
-    ${source_path}/base/ResourceManager.cpp
     ${source_path}/base/AbstractLoader.cpp
     ${source_path}/base/AbstractStorer.cpp
-
-    ${source_path}/viewer/AbstractContext.cpp
-    ${source_path}/viewer/AbstractGLContext.cpp
-    ${source_path}/viewer/AbstractGLContextFactory.cpp
-    ${source_path}/viewer/GLContextFormat.cpp
-    ${source_path}/viewer/GLContextUtils.cpp
-    ${source_path}/viewer/ViewerContext.cpp
-    ${source_path}/viewer/Surface.cpp
-    ${source_path}/viewer/RenderSurface.cpp
-    ${source_path}/viewer/TimeManager.cpp
-    ${source_path}/viewer/Timer.cpp
-
-    ${source_path}/scripting/ScriptEnvironment.cpp
-    ${source_path}/scripting/SystemApi.cpp
-    ${source_path}/scripting/TimerApi.cpp
-    ${source_path}/scripting/ScriptTimer.cpp
-    ${source_path}/scripting/ComponentsApi.cpp
-    ${source_path}/scripting/PipelineApi.cpp
-    ${source_path}/scripting/PipelineApiWatcher.cpp
 
     ${source_path}/pipeline/AbstractSlot.cpp
     ${source_path}/pipeline/AbstractDataSlot.cpp
     ${source_path}/pipeline/AbstractInputSlot.cpp
     ${source_path}/pipeline/Stage.cpp
-    ${source_path}/pipeline/RenderStage.cpp
     ${source_path}/pipeline/Pipeline.cpp
-    ${source_path}/pipeline/RenderPipeline.cpp
-    ${source_path}/pipeline/ViewerContainer.cpp
-    ${source_path}/pipeline/RenderInterface.cpp
     ${source_path}/pipeline/StageComponent.cpp
-    ${source_path}/pipeline/PipelineWatcher.cpp
-    ${source_path}/pipeline/PipelineEvent.cpp
 
+    ${source_path}/rendering/AbstractDrawable.cpp
     ${source_path}/rendering/Camera.cpp
+    ${source_path}/rendering/Drawable.cpp
+    ${source_path}/rendering/RenderPass.cpp
 
     ${source_path}/stages/base/BasicFramebufferStage.cpp
     ${source_path}/stages/base/TextureLoadStage.cpp
@@ -195,14 +189,17 @@ set(sources
     ${source_path}/input/Control.cpp
     ${source_path}/input/MetaphorPrinter.cpp
     ${source_path}/input/Mapping.cpp
+
+    ${source_path}/tools/AbstractVideoExporter.cpp
+    ${source_path}/tools/ImageExporter.cpp
 )
 
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${include_path} "\\\\.h$|\\\\.inl$" 
     ${header_group} ${headers})
-source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.inl$" 
     ${source_group} ${sources})
 
 
@@ -257,6 +254,7 @@ target_include_directories(${target}
     INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/source/include>
     $<INSTALL_INTERFACE:include>
 )
 
