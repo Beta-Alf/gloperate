@@ -123,7 +123,6 @@ set(headers
     ${include_path}/input/Metaphor.h
     ${include_path}/input/MetaphorPrinter.h
     ${include_path}/input/Metaphor.hpp
-    ${include_path}/input/Mapping.h
 
     ${include_path}/tools/AbstractVideoExporter.h
     ${include_path}/tools/ImageExporter.h
@@ -188,7 +187,6 @@ set(sources
     ${source_path}/input/KeyboardDevice.cpp
     ${source_path}/input/Control.cpp
     ${source_path}/input/MetaphorPrinter.cpp
-    ${source_path}/input/Mapping.cpp
 
     ${source_path}/tools/AbstractVideoExporter.cpp
     ${source_path}/tools/ImageExporter.cpp

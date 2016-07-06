@@ -6,6 +6,7 @@
 #include <gloperate/input/AbstractDeviceProvider.h>
 #include <gloperate/input/AbstractDevice.h>
 #include <gloperate/input/AbstractEventConsumer.h>
+#include <gloperate/input/Metaphor.h>
 #include <gloperate/input/InputEvent.h>
 #include <gloperate/input/Control.h>
 
@@ -56,9 +57,9 @@ void InputManager::addDevice(AbstractDevice * device)
     m_devices.emplace_back(device);
 }
 
-void InputManager::addMapping(Mapping * mapping)
+void InputManager::addMapping(unsigned int controlId, AbstractMetaphor * metaphor)
 {
-    m_mappings.push_back(mapping);
+    m_mapping.emplace(controlId, metaphor);
 }
 
 void InputManager::onEvent(const InputEvent & event)
@@ -71,9 +72,11 @@ void InputManager::onEvent(const InputEvent & event)
 
 void InputManager::onControlEvent(Control * control, const InputEvent & event)
 {
-    for(auto& mapping : m_mappings)
+    auto range = m_mapping.equal_range(control->id());
+
+    for(auto it = range.first; it != range.second; ++it)
     {
-        mapping->onEvent(control->id(), event);
+        it->second->onEvent(event);
     }
 }
 

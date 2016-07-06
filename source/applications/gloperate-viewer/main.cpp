@@ -25,6 +25,9 @@
 #include <gloperate-qtquick/scripting/QmlEngine.h>
 #include <gloperate-qtquick/scripting/QmlScriptContext.h>
 
+#include <gloperate/input/Mapping.h>
+#include <gloperate/input/MetaphorPrinter.h>
+
 #include "Config.h"
 
 
@@ -74,6 +77,10 @@ int main(int argc, char * argv[])
     environment.componentManager()->scanPlugins("loaders");
     environment.componentManager()->scanPlugins("stages");
     environment.componentManager()->scanPlugins("exporter");
+
+    MetaphorPrinter printer;
+
+    environment.inputManager()->addMapping(1, &(printer.m_metaphor));
 
     // Load and show QML
     auto * window = new QuickView(&qmlEngine);

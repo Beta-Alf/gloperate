@@ -4,6 +4,7 @@
 
 #include <list>
 #include <vector>
+#include <unordered_map>
 #include <memory>
 
 #include <cppexpose/reflection/Object.h>
@@ -80,7 +81,7 @@ public:
     *  @param[in] mapping
     *    mapping (must NOT be null)
     */
-    void addMapping(Mapping * mapping);
+    void addMapping(unsigned int controlId, AbstractMetaphor * metaphor);
 
     /**
     *  @brief
@@ -110,7 +111,7 @@ protected:
     std::list<AbstractDeviceProvider *> m_deviceProviders;
     std::list<AbstractDevice *>         m_devices;
     std::list<InputEvent *>             m_events;
-    std::vector<Mapping *>              m_mappings;
+    std::unordered_multimap<unsigned int, AbstractMetaphor *> m_mapping;
 };
 
 
