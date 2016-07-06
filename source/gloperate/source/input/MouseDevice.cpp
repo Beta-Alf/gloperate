@@ -22,7 +22,7 @@ MouseDevice::~MouseDevice()
 
 void MouseDevice::move(const glm::ivec2 & pos)
 {
-    auto inputEvent = new MouseEvent{
+    MouseEvent inputEvent{
         InputEvent::Type::MouseMove,
         this,
         pos,
@@ -38,7 +38,7 @@ void MouseDevice::move(const glm::ivec2 & pos)
 
 void MouseDevice::buttonPress(int button, const glm::ivec2 & pos)
 {
-    auto inputEvent = new MouseEvent{
+    MouseEvent inputEvent {
         InputEvent::Type::MouseButtonPress,
         this,
         pos,
@@ -55,7 +55,7 @@ void MouseDevice::buttonPress(int button, const glm::ivec2 & pos)
 
 void MouseDevice::buttonRelease(int button, const glm::ivec2 & pos)
 {
-    auto inputEvent = new MouseEvent{
+    MouseEvent inputEvent {
         InputEvent::Type::MouseButtonRelease,
         this,
         pos,
@@ -70,7 +70,7 @@ void MouseDevice::buttonRelease(int button, const glm::ivec2 & pos)
 
 void MouseDevice::wheelScroll(const glm::vec2 & delta, const glm::ivec2 & pos)
 {
-    auto inputEvent = new MouseEvent{
+    MouseEvent inputEvent {
         InputEvent::Type::MouseWheelScroll,
         this,
         pos,

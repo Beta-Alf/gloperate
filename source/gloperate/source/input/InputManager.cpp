@@ -20,25 +20,20 @@ InputManager::InputManager()
 
 InputManager::~InputManager()
 {
-	for (const auto ptr : m_consumers)
-	{
-		delete ptr;
-	}
+    for (const auto ptr : m_consumers)
+    {
+        delete ptr;
+    }
 
-	for (const auto ptr : m_deviceProviders)
-	{
-		delete ptr;
-	}
+    for (const auto ptr : m_deviceProviders)
+    {
+        delete ptr;
+    }
 
-	for (const auto ptr : m_devices)
-	{
-		delete ptr;
-	}
-
-	for (const auto ptr : m_events)
-	{
-		delete ptr;
-	}
+    for (const auto ptr : m_devices)
+    {
+        delete ptr;
+    }
 }
 
 void InputManager::registerConsumer(AbstractEventConsumer * consumer)
@@ -64,18 +59,15 @@ void InputManager::addMapping(Mapping * mapping)
     m_mappings.push_back(mapping);
 }
 
-void InputManager::onEvent(InputEvent * event)
+void InputManager::onEvent(const InputEvent & event)
 {
-    assert(event != nullptr);
-    m_events.emplace_back(event);
-
     for (auto consumer : m_consumers)
     {
         consumer->onEvent(event);
     }
 }
 
-void InputManager::onControlEvent(Control * control, InputEvent * event)
+void InputManager::onControlEvent(Control * control, const InputEvent & event)
 {
     for(auto& mapping : m_mappings)
     {

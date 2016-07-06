@@ -58,7 +58,7 @@ public:
     *  @param[in] event
     *    Input event (must NOT be null)
     */
-    virtual void onEvent(InputEvent * event) = 0;
+    virtual void onEvent(const InputEvent & event) = 0;
 
 
 protected:

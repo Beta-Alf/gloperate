@@ -4,7 +4,7 @@
 
 namespace gloperate{
 
-void Mapping::onEvent(unsigned int controlId, InputEvent * event)
+void Mapping::onEvent(unsigned int controlId, const InputEvent & event)
 {
     auto range = m_mapping.equal_range(controlId);
 

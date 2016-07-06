@@ -13,7 +13,7 @@ Control::Control(unsigned int deviceId, unsigned int id, InputManager * inputMan
 
 }
 
-void Control::dispatch(InputEvent * event)
+void Control::dispatch(const InputEvent & event)
 {
     m_inputManager->onControlEvent(this, event);
 }

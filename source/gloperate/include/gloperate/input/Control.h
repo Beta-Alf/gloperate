@@ -12,7 +12,7 @@ public:
 
     Control(unsigned int deviceId, unsigned int id, InputManager * inputManager);
 
-    void dispatch(InputEvent * event);
+    void dispatch(const InputEvent & event);
 
     unsigned int deviceId();
     unsigned int id();

@@ -13,9 +13,9 @@ Metaphor<T>::Metaphor(std::set<InputEvent::Type> types, handlerType handler, T *
 }
 
 template <typename T>
-void Metaphor<T>::onEvent(InputEvent * event)
+void Metaphor<T>::onEvent(const InputEvent & event)
 {
-    if(m_types.count(event->type()))
+    if(m_types.count(event.type()))
         (m_object->*m_handler)(event);
 }
 

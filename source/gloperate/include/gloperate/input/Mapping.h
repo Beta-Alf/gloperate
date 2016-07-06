@@ -14,7 +14,7 @@ class AbstractMetaphor;
 class GLOPERATE_API Mapping
 {
 public:
-    void onEvent(unsigned int controlId, InputEvent * event);
+    void onEvent(unsigned int controlId, const InputEvent & event);
     void addConnection(unsigned int controlId, AbstractMetaphor * metaphor);
 
 protected:

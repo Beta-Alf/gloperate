@@ -20,7 +20,7 @@ KeyboardDevice::~KeyboardDevice()
 
 void KeyboardDevice::keyPress(int key, int modifier)
 {
-    auto inputEvent = new ButtonEvent{
+    ButtonEvent inputEvent {
         InputEvent::Type::ButtonPress,
         this,
         std::to_string(key) + ":" + std::to_string(modifier)
@@ -31,7 +31,7 @@ void KeyboardDevice::keyPress(int key, int modifier)
 
 void KeyboardDevice::keyRelease(int key, int modifier)
 {
-    auto inputEvent = new ButtonEvent{
+    ButtonEvent inputEvent {
         InputEvent::Type::ButtonPress,
         this,
         std::to_string(key) + ":" + std::to_string(modifier)

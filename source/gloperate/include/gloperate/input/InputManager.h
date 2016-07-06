@@ -8,6 +8,7 @@
 
 #include <gloperate/gloperate_api.h>
 #include <gloperate/input/Mapping.h>
+#include <gloperate/input/InputEvent.h>
 
 
 namespace gloperate
@@ -17,7 +18,6 @@ namespace gloperate
 class AbstractEventConsumer;
 class AbstractDeviceProvider;
 class AbstractDevice;
-class InputEvent;
 class Control;
 
 
@@ -83,7 +83,7 @@ public:
     *  @param[in] event
     *    The Event to forward
     */
-    void onEvent(InputEvent * event);
+    void onEvent(const InputEvent & event);
 
     /**
     *  @brief
@@ -95,7 +95,7 @@ public:
     *  @param[in] event
     *    The Event to forward
     */
-    void onControlEvent(Control * control, InputEvent * event);
+    void onControlEvent(Control * control, const InputEvent & event);
 
 
 protected:

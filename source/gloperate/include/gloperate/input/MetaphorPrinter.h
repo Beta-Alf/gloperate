@@ -14,7 +14,7 @@ class GLOPERATE_API MetaphorPrinter
 public:
     MetaphorPrinter();
 
-    void print(InputEvent * event);
+    void print(const InputEvent & event);
 
     Metaphor<MetaphorPrinter> m_metaphor;
 

@@ -12,9 +12,9 @@ MetaphorPrinter::MetaphorPrinter()
 
 }
 
-void MetaphorPrinter::print(InputEvent * event)
+void MetaphorPrinter::print(const InputEvent & event)
 {
-    globjects::debug() << "Event: " << event->asString();
+    globjects::debug() << "Event: " << event.asString();
 
 }
 

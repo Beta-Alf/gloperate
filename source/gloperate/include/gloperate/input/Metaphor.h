@@ -11,18 +11,18 @@ namespace gloperate{
 class GLOPERATE_API AbstractMetaphor
 {
 public:
-    virtual void onEvent(InputEvent * event) = 0;
+    virtual void onEvent(const InputEvent & event) = 0;
 
 };
 
 template <typename T>
 class GLOPERATE_API Metaphor : public AbstractMetaphor
 {
-    using handlerType = void (T::*)(InputEvent *);
+    using handlerType = void (T::*)(const InputEvent & event);
 
 public:
     Metaphor(std::set<InputEvent::Type> types, handlerType handler, T * object);
-    virtual void onEvent(InputEvent * event) override;
+    virtual void onEvent(const InputEvent & event) override;
 
 private:
     handlerType m_handler;
