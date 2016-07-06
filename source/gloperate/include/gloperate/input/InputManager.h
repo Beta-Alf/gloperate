@@ -10,7 +10,7 @@
 #include <cppexpose/reflection/Object.h>
 
 #include <gloperate/gloperate_api.h>
-#include <gloperate/input/Mapping.h>
+
 #include <gloperate/input/InputEvent.h>
 
 
@@ -20,6 +20,7 @@ namespace gloperate
 
 class Environment;
 class AbstractEventConsumer;
+class AbstractMetaphor;
 class AbstractDeviceProvider;
 class AbstractDevice;
 class Control;
