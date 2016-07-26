@@ -1,11 +1,14 @@
 
 #pragma once
 
+#include <cppexpose/plugin/plugin_api.h>
+
 #include <hidapi/hidapi.h>
 
 #include <gloperate/input/AbstractDeviceProvider.h>
 
 #include <gloperate-hidapi/gloperate-hidapi_api.h>
+#include <gloperate/gloperate-version.h>
 
 #include <memory>
 #include <unordered_map>
@@ -28,6 +31,14 @@ class GLOPERATE_HIDAPI_API HIDDeviceProvider : public gloperate::AbstractDeviceP
     using DeviceMap = std::unordered_map<std::wstring,gloperate::AbstractDevice*>;
 
 public:
+    CPPEXPOSE_DECLARE_COMPONENT(
+            HIDDeviceProvider, gloperate::AbstractDeviceProvider,
+            "",
+            "",
+            "",
+            "Detects and creates HID-devices",
+            GLOPERATE_AUTHOR_ORGANIZATION,
+            "v0.1.0")
     /**
      * @brief
      *   Constructor
