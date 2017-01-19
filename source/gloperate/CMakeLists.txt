@@ -93,6 +93,7 @@ set(headers
     ${include_path}/pipeline/Output.inl
     ${include_path}/pipeline/StageComponent.inl
     ${include_path}/pipeline/PipelineLoader.h
+    ${include_path}/pipeline/PipelineSaver.h
 
     ${include_path}/rendering/AbstractDrawable.h
     ${include_path}/rendering/Camera.h
@@ -205,6 +206,7 @@ set(sources
     ${source_path}/pipeline/Pipeline.cpp
     ${source_path}/pipeline/AbstractSlot.cpp
     ${source_path}/pipeline/PipelineLoader.cpp
+    ${source_path}/pipeline/PipelineSaver.cpp
 
     ${source_path}/rendering/AbstractDrawable.cpp
     ${source_path}/rendering/Camera.cpp
