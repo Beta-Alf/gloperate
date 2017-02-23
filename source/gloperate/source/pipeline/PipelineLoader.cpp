@@ -15,8 +15,6 @@ using namespace cppassist;
 
 using cppexpose::Tokenizer;
 
-using StageComponent = cppexpose::TypedComponent<gloperate::Stage>;
-
 namespace gloperate
 {
 
@@ -37,7 +35,7 @@ PipelineLoader::PipelineLoader(Environment *environment)
     m_tokenizer.setQuotationMarks("\"");
     m_tokenizer.setSingleCharacters("{}:");
 
-    std::vector<StageComponent* > stages = m_environment->componentManager()->components<gloperate::Stage>();
+    std::vector<AbstractComponent<Stage> *> stages = m_environment->componentManager()->components<gloperate::Stage>();
 
     for(auto stage : stages){
         m_componentsByType.insert({stage->name(), stage}); // TODO: this could be std::transform

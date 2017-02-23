@@ -3,12 +3,11 @@
 
 #include <cppexpose/base/Tokenizer.h>
 
-#include <gloperate/pipeline/StageComponent.h>
+#include <gloperate/base/AbstractComponent.h>
 
 #include <string>
 #include <unordered_map>
 #include <memory>
-
 
 namespace gloperate
 {
@@ -66,7 +65,7 @@ private:
 
     gloperate::Environment* m_environment;
     cppexpose::Tokenizer m_tokenizer;
-    std::unordered_map<std::string, cppexpose::TypedComponent<gloperate::Stage> *> m_componentsByType;
+    std::unordered_map<std::string, AbstractComponent<Stage> *> m_componentsByType;
 
     std::vector<std::pair<AbstractSlot *, std::string>> m_unresolvedPaths;
 };
