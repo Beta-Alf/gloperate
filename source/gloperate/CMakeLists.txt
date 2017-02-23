@@ -91,7 +91,6 @@ set(headers
     ${include_path}/pipeline/Input.inl
     ${include_path}/pipeline/Output.h
     ${include_path}/pipeline/Output.inl
-    ${include_path}/pipeline/StageComponent.inl
     ${include_path}/pipeline/PipelineLoader.h
     ${include_path}/pipeline/PipelineSaver.h
 
